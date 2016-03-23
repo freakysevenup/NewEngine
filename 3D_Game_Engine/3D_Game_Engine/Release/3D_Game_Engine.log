@@ -1,0 +1,67 @@
+﻿Build started 3/22/2016 11:44:27 PM.
+     1>Project "J:\GitHub\ComputerGraphics\Computer_Graphics_2\3D_Game_Engine\3D_Game_Engine\3D_Game_Engine.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Core\Camera3D.cpp Core\InputManager.cpp Core\IOManager.cpp Core\ViewPort.cpp main.cpp MainGame.cpp Math\Error.cpp Math\Matrix3x3.cpp Math\Matrix4x4.cpp Math\Quaternion.cpp Math\Vector2.cpp Math\Vector3.cpp Math\Vector4.cpp Rendering\AssImpModelLoader.cpp Rendering\Lighting.cpp Rendering\Mesh.cpp Rendering\ShaderManager.cpp Rendering\ShaderNova.cpp Rendering\Shape.cpp Rendering\Texture.cpp
+         Camera3D.cpp
+         InputManager.cpp
+         IOManager.cpp
+     1>Core\IOManager.cpp(29): warning C4244: 'initializing' : conversion from 'std::streamoff' to 'int', possible loss of data
+     1>Core\IOManager.cpp(37): warning C4244: '-=' : conversion from 'std::streamoff' to 'int', possible loss of data
+     1>Core\IOManager.cpp(68): warning C4244: 'initializing' : conversion from 'std::streamoff' to 'int', possible loss of data
+     1>Core\IOManager.cpp(76): warning C4244: '-=' : conversion from 'std::streamoff' to 'int', possible loss of data
+         ViewPort.cpp
+         main.cpp
+         MainGame.cpp
+         Error.cpp
+         Matrix3x3.cpp
+         Matrix4x4.cpp
+         Quaternion.cpp
+         Vector2.cpp
+         Vector3.cpp
+         Vector4.cpp
+         AssImpModelLoader.cpp
+         Lighting.cpp
+     1>Rendering\Lighting.cpp(216): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+         Mesh.cpp
+         ShaderManager.cpp
+     1>Rendering\ShaderManager.cpp(127): warning C4800: 'GLenum' : forcing value to bool 'true' or 'false' (performance warning)
+     1>Rendering\ShaderManager.cpp(174): warning C4244: 'initializing' : conversion from 'std::streamoff' to 'int', possible loss of data
+     1>Rendering\ShaderManager.cpp(182): warning C4244: '-=' : conversion from 'std::streamoff' to 'int', possible loss of data
+         ShaderNova.cpp
+     1>Rendering\ShaderNova.cpp(31): warning C4244: 'initializing' : conversion from 'std::streamoff' to 'int', possible loss of data
+     1>Rendering\ShaderNova.cpp(39): warning C4244: '-=' : conversion from 'std::streamoff' to 'int', possible loss of data
+     1>Rendering\ShaderNova.cpp(57): warning C4018: '<' : signed/unsigned mismatch
+         Shape.cpp
+         Texture.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt Rendering\stb_image.c
+         stb_image.c
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"J:\GitHub\ComputerGraphics\Computer_Graphics_2\3D_Game_Engine\Release\3D_Game_Engine.exe" /INCREMENTAL:NO /NOLOGO opengl32.lib glew32.lib SDL2.lib SDL2main.lib assimp.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"J:\GitHub\ComputerGraphics\Computer_Graphics_2\3D_Game_Engine\Release\3D_Game_Engine.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"J:\GitHub\ComputerGraphics\Computer_Graphics_2\3D_Game_Engine\Release\3D_Game_Engine.lib" /MACHINE:X86 /SAFESEH Release\Camera3D.obj
+         Release\InputManager.obj
+         Release\IOManager.obj
+         Release\ViewPort.obj
+         Release\main.obj
+         Release\MainGame.obj
+         Release\Error.obj
+         Release\Matrix3x3.obj
+         Release\Matrix4x4.obj
+         Release\Quaternion.obj
+         Release\Vector2.obj
+         Release\Vector3.obj
+         Release\Vector4.obj
+         Release\AssImpModelLoader.obj
+         Release\Lighting.obj
+         Release\Mesh.obj
+         Release\ShaderManager.obj
+         Release\ShaderNova.obj
+         Release\Shape.obj
+         Release\stb_image.obj
+         Release\Texture.obj
+         Generating code
+         Finished generating code
+         3D_Game_Engine.vcxproj -> J:\GitHub\ComputerGraphics\Computer_Graphics_2\3D_Game_Engine\Release\3D_Game_Engine.exe
+     1>Done Building Project "J:\GitHub\ComputerGraphics\Computer_Graphics_2\3D_Game_Engine\3D_Game_Engine\3D_Game_Engine.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:09.91

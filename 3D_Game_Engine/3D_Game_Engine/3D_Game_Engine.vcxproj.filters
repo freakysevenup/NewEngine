@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Main Game">
+      <UniqueIdentifier>{e5e748e3-b9c9-49b9-b674-2c607ebd1e1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{c20374c9-a155-48ef-a057-e9bdc117d804}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{ba21d565-69f9-431d-8df6-a4430b06ec07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{a87ee0b2-7550-470a-a35f-fe7fe20a0681}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainGame.cpp">
+      <Filter>Main Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Camera3D.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\InputManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\IOManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ViewPort.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\AssImpModelLoader.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Lighting.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Mesh.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\ShaderManager.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\ShaderNova.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Shape.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\stb_image.c">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Texture.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Matrix3x3.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Matrix4x4.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Quaternion.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Error.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\JadeCalculator.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\JadeMath.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\vec2.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\vec3.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\vec4.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Shaders\basicShaderFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\basicShaderVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\glowShaderFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\glowShaderVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\pointLightFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\pointLightVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\spotLightFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\spotLightVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\cubeShaderFragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\cubeShaderVertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\multiplePointLightFragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\multiplePointLightVertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\reflectionFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\reflectionVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\cubeShaderFragment - Copy.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\cubeShaderVertex - Copy.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\example_only_reflection.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\example_only_reflection.vs.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\dualConeSpotLightFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\dualConeSpotLightVertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\blinnPhongFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\blinnPhongVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\skyboxFragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\skyboxVertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MainGame.h">
+      <Filter>Main Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Camera3D.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\InputManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\IOManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ViewPort.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\AssImpModelLoader.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Lighting.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Mesh.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\ShaderManager.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\ShaderNova.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Shape.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\stb_image.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Texture.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Transform.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Vertex.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Matrix3x3.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Matrix4x4.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Quaternion.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Error.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Jade_Primitives.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\JadeCalculator.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\JadeMath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\JML.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\vec2.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\vec3.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\vec4.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
