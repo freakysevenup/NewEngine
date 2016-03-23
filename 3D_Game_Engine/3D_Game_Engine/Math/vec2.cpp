@@ -111,14 +111,12 @@ namespace jml
 		return temp > JFloat(0.0) ? *this * j_RecipricalSqrt(temp) : vec2(JFloat(0.0));
 	}
 
-	JFloat vec2::Normalize()
+	void vec2::Normalize()
 	{
-		JFloat temp = Magnitude();
-		if (temp > JFloat(0.0))
+		if (Magnitude() > JFloat(0.0))
 		{
-			*this /= temp;
+			*this /= Magnitude();
 		}
-		return temp;
 	}
 
 	JFloat vec2::Magnitude()

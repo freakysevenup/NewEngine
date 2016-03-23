@@ -64,102 +64,23 @@ namespace jml
 		/// Finalizes an instance of the <see cref="vec4"/> class.
 		/// </summary>
 		~vec4() {}
-		/// <summary>
-		/// allows for access of a specific index of the vector
-		/// </summary>
-		/// <param name="i">The i.</param>
-		/// <returns></returns>
+
 		JFloat & operator[](U_JInt i);
-		/// <summary>
-		/// overrides the function operator
-		/// </summary>
-		/// <param name="xVal">The x value.</param>
-		/// <param name="yVal">The y value.</param>
-		/// <param name="zVal">The z value.</param>
-		/// <param name="wVal">The w value.</param>
 		void operator () (JFloat xVal, JFloat yVal, JFloat zVal, JFloat wVal);
-		/// <summary>
-		/// checks to see if this vec4 is equal to the parameter
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		JBool operator == (vec4 &param);
-		/// <summary>
-		/// checks to see if this vec4 is not equal to the parameter
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		JBool operator != (vec4 &param);
-		/// <summary>
-		/// make this vec4 equal the parameter
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec4 operator = (vec4 &param);
-		/// <summary>
-		/// switch the signs on every component of this vec4
-		/// </summary>
-		/// <returns></returns>
 		vec4 operator - (void);
-		/// <summary>
-		/// add the parameter to this vec4
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec4 operator + (vec4 &param);
-		/// <summary>
-		/// add the parameter to this vec4 
-		/// changes the value of this vec4
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec4 operator += (vec4 &param);
-		/// <summary>
-		/// subtracts the parameter from this vec4
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec4 operator - (vec4 &param);
-		/// <summary>
-		/// subtracts the parameter from this vec4 
-		/// changes the value of this vec4
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec4 operator -= (vec4 &param);
-		/// <summary>
-		/// multiplies this vec4 by the parameter
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec4 operator * (JFloat  param);
-		/// <summary>
-		/// multiplies this vec 4 by the parameter
-		/// changes the value of this vec4
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		JFloat operator * (vec4 &param);
-		/// <summary>
-		/// multiplies this vec 4 by the parameter
-		/// changes the value of this vec4
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec4 operator *= (JFloat  param);
-		/// <summary>
-		/// divides this vec4 by the parameter
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec4 operator / (JFloat  param);
-		/// <summary>
-		/// divides this vec4 by the parameter
-		/// changes the value of this vec4
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec4 operator /= (JFloat  param);
+
 		/// <summary>
 		/// returns the Magnitude of this vec4
 		/// </summary>
@@ -179,7 +100,7 @@ namespace jml
 		/// Normalizes this vec4
 		/// </summary>
 		/// <returns></returns>
-		vec4 Normalize();
+		void Normalize();
 		/// <summary>
 		/// returns a vec4 using the minimum values of these two vec4's
 		/// </summary>
@@ -227,4 +148,36 @@ namespace jml
 		JFloat w;
 	};
 
+	vec4 operator * (JFloat param, vec4 vec)
+	{
+		return param * vec;
+	}
+	vec4 operator / (JFloat param, vec4 vec)
+	{
+		return param / vec;
+	}
+	vec4 operator - (JFloat param, vec4 vec)
+	{
+		return param - vec;
+	}
+	vec4 operator + (JFloat param, vec4 vec)
+	{
+		return param + vec;
+	}
+	vec4 operator *= (JFloat param, vec4 vec)
+	{
+		return param *= vec;
+	}
+	vec4 operator /= (JFloat param, vec4 vec)
+	{
+		return param /= vec;
+	}
+	vec4 operator -= (JFloat param, vec4 vec)
+	{
+		return param -= vec;
+	}
+	vec4 operator += (JFloat param, vec4 vec)
+	{
+		return param += vec;
+	}
 }

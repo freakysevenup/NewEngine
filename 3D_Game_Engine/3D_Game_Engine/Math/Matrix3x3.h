@@ -1,14 +1,54 @@
-#pragma once
-#include "Vector3.h"
 
 /*
 
-Need a print method for my matrices, quaternions and vectors
+Some clarifications, as there have been much confusion about matrix formats etc in the past.
+
+Short:
+- Matrix have base vectors in columns (vectors are column matrices, 3x1 matrices).
+- Matrix is physically stored in column major format
+- Matrices are concaternated from left
+
+Long:
+Given three base vectors a, b and c the matrix is stored as
+
+|a.x b.x c.x|
+|a.y b.y c.y|
+|a.z b.z c.z|
+
+Vectors are treated as columns, so the vector v is
+
+|x|
+|y|
+|z|
+
+And matrices are applied _before_ the vector (pre-multiplication)
+v' = M*v
+
+|x'|   |a.x b.x c.x|   |x|   |a.x*x + b.x*y + c.x*z|
+|y'| = |a.y b.y c.y| * |y| = |a.y*x + b.y*y + c.y*z|
+|z'|   |a.z b.z c.z|   |z|   |a.z*x + b.z*y + c.z*z|
+
+
+Physical storage and indexing:
+To be compatible with popular 3d rendering APIs (read D3d and OpenGL)
+the physical indexing is
+
+|0 3 6|
+|1 4 7|
+|2 5 8|
+
+index = column*3 + row
+
+which in C++ translates to M[column][row]
+
+The mathematical indexing is M_row,column and this is what is used for _-notation
+so _12 is 1st row, second column and operator(row, column)
 
 */
+#pragma once
+#include "Math\vec3.h"
 
-struct Vector3;
-	struct Matrix3x3
+	class Matrix3x3
 	{
 	public:
 		Matrix3x3(void);
@@ -40,6 +80,5 @@ struct Vector3;
 		Matrix3x3 RotateMatrix(float angle, char axis);
 		float Get3x3Determinant(float _I11, float _D11, float _I12, float _D12, float _I13, float _D13);
 
-		float I11, I12, I13, I21, I22, I23, I31, I32, I33;
-		float D11, D12, D13, D21, D22, D23, D31, D32, D33;
+
 	};

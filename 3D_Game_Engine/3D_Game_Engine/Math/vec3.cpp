@@ -15,6 +15,7 @@
 
 namespace jml
 {
+
 	vec3 vec3::operator () (JFloat xVal, JFloat yVal, JFloat zVal)
 	{
 		x = xVal; y = yVal; z = zVal;
@@ -111,14 +112,12 @@ namespace jml
 		return temp > JFloat(0.0) ? *this * j_RecipricalSqrt(temp) : vec3(JFloat(0.0));
 	}
 
-	JFloat vec3::Normalize()
+	void vec3::Normalize()
 	{
-		JFloat temp = Magnitude();
-		if (temp > JFloat(0.0))
+		if (Magnitude() > JFloat(0.0))
 		{
-			*this /= temp;
+			*this /= Magnitude();
 		}
-		return temp;
 	}
 
 	JFloat vec3::Dot(vec3 &param)

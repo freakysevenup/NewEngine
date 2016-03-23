@@ -93,9 +93,10 @@
     <ClCompile Include="Math\Error.cpp" />
     <ClCompile Include="Math\JadeCalculator.cpp" />
     <ClCompile Include="Math\JadeMath.cpp" />
+    <ClCompile Include="Math\mat3.cpp" />
     <ClCompile Include="Math\Matrix3x3.cpp" />
     <ClCompile Include="Math\Matrix4x4.cpp" />
-    <ClCompile Include="Math\Quaternion.cpp" />
+    <ClCompile Include="Math\quat.cpp" />
     <ClCompile Include="Math\vec2.cpp" />
     <ClCompile Include="Math\vec3.cpp" />
     <ClCompile Include="Math\vec4.cpp" />
@@ -145,9 +146,10 @@
     <ClInclude Include="Math\JadeMath.h" />
     <ClInclude Include="Math\Jade_Primitives.h" />
     <ClInclude Include="Math\JML.h" />
+    <ClInclude Include="Math\mat3.h" />
     <ClInclude Include="Math\Matrix3x3.h" />
     <ClInclude Include="Math\Matrix4x4.h" />
-    <ClInclude Include="Math\Quaternion.h" />
+    <ClInclude Include="Math\quat.h" />
     <ClInclude Include="Math\vec2.h" />
     <ClInclude Include="Math\vec3.h" />
     <ClInclude Include="Math\vec4.h" />

@@ -54,121 +54,26 @@ namespace jml
 		/// Finalizes an instance of the <see cref="vec3"/> class.
 		/// </summary>
 		~vec3() {}
-		/// <summary>
-		/// overrides the function operator
-		/// </summary>
-		/// <param name="xVal">The x value.</param>
-		/// <param name="yVal">The y value.</param>
-		/// <param name="zVal">The z value.</param>
-		/// <returns></returns>
+
 		vec3 operator () (JFloat xVal, JFloat yVal, JFloat zVal);
-		/// <summary>
-		/// adds the passed parameter to this vec3
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec3 operator + (vec3 &param);
-		/// <summary>
-		/// adds the passed parameter to this vec3
-		/// changes the values of this vec3
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec3 operator += (vec3 &param);
-		/// <summary>
-		/// adds the passed parameter to the x and y components of this vec3
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec3 operator + (JFloat param);
-		/// <summary>
-		/// adds the passed parameter to the x and y components of this vec3
-		/// changes the value of this vec3
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec3 operator += (JFloat param);
-		/// <summary>
-		/// switches the sign on all components
-		/// </summary>
-		/// <returns></returns>
 		vec3 operator - (void);
-		/// <summary>
-		/// subtracts the passed parameter to this vec3
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec3 operator - (vec3 &param);
-		/// <summary>
-		/// subtracts the passed parameter to this vec3
-		/// changes the value of this vec3
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec3 operator -= (vec3 &param);
-		/// <summary>
-		/// multiplies the passed parameter to this vec3
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec3 operator * (vec3 &param);
-		/// <summary>
-		/// multiplies the passed parameter to this vec3
-		/// changes the value of this vec3
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec3 operator *= (vec3 &param);
-		/// <summary>
-		/// multiplies the passed parameter to this vec3
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec3 operator * (JFloat param);
-		/// <summary>
-		/// multiplies the passed parameter to this vec3
-		/// changes the value of this vec3
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec3 operator *= (JFloat param);
-		/// <summary>
-		/// divides this vec3 by the passed parameter
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec3 operator / (JFloat param);
-		/// <summary>
-		/// divides this vec3 by the passed parameter
-		/// changes the value of this vec3
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		vec3 operator /= (JFloat param);
-		/// <summary>
-		/// checks if this vec3 and the passed parameter are equal
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		JBool operator == (vec3 &param);
-		/// <summary>
-		/// checks if this vec3 and the passed parameter are not equal
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		JBool operator != (vec3 &param);
-		/// <summary>
-		/// checks which is lesser this vec3 or the passed parameter
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		JBool operator < (vec3 &param);
-		/// <summary>
-		/// checks which is greater this vec3 or the passed parameter
-		/// </summary>
-		/// <param name="param">The parameter.</param>
-		/// <returns></returns>
 		JBool operator > (vec3 &param);
+
 		/// <summary>
 		/// Returns a unit vector
 		/// </summary>
@@ -178,7 +83,7 @@ namespace jml
 		/// Normalizes this vec3.
 		/// </summary>
 		/// <returns></returns>
-		JFloat Normalize();
+		void Normalize();
 		/// <summary>
 		/// gets the Magnitude of this vec3.
 		/// </summary>
@@ -237,4 +142,36 @@ namespace jml
 		JFloat z;
 	};
 
+	vec3 operator * (JFloat param, vec3 vec)
+	{
+		return param * vec;
+	}
+	vec3 operator / (JFloat param, vec3 vec)
+	{
+		return param / vec;
+	}
+	vec3 operator - (JFloat param, vec3 vec)
+	{
+		return param - vec;
+	}
+	vec3 operator + (JFloat param, vec3 vec)
+	{
+		return param + vec;
+	}
+	vec3 operator *= (JFloat param, vec3 vec)
+	{
+		return param *= vec;
+	}
+	vec3 operator /= (JFloat param, vec3 vec)
+	{
+		return param /= vec;
+	}
+	vec3 operator -= (JFloat param, vec3 vec)
+	{
+		return param -= vec;
+	}
+	vec3 operator += (JFloat param, vec3 vec)
+	{
+		return param += vec;
+	}
 }

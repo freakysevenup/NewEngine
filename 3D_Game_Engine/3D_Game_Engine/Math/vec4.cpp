@@ -117,14 +117,12 @@ namespace jml
 		return temp > JFloat(0.0) ? *this * j_RecipricalSqrt(temp) : vec4(JFloat(0.0));
 	}
 
-	vec4 vec4::Normalize()
+	void vec4::Normalize()
 	{
-		JFloat temp = Magnitude();
-		if (temp > JFloat(0.0))
+		if (Magnitude() > JFloat(0.0))
 		{
-			*this /= temp;
+			*this /= Magnitude();
 		}
-		return temp;
 	}
 
 	vec4 vec4::Minimum(vec4 &param)
