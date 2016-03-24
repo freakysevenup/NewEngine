@@ -38,6 +38,7 @@ Vectors are treated as columns
 #include "Jade_Primitives.h"
 #include "vec4.h"
 #include "quat.h"
+#include "mat3.h"
 
 namespace jml
 {
@@ -179,28 +180,31 @@ namespace jml
 		vec4 column3;
 	};
 
-	mat4 operator * (JFloat param, mat4 vec)
+	namespace
 	{
-		return param * vec;
-	}
-	mat4 operator / (JFloat param, mat4 vec)
-	{
-		return param / vec;
-	}
-	mat4 operator *= (JFloat param, mat4 vec)
-	{
-		return param *= vec;
-	}
-	mat4 operator /= (JFloat param, mat4 vec)
-	{
-		return param /= vec;
-	}
-	vec4 operator * (vec4 &param1, mat4 &param2)
-	{
-		return vec4(
-			param1.x * param2.column0.x + param1.x * param2.column0.y + param1.x * param2.column0.z + param1.x * param2.column0.w,
-			param1.y * param2.column1.x + param1.y * param2.column1.y + param1.y * param2.column1.z + param1.y * param2.column1.w,
-			param1.z * param2.column2.x + param1.z * param2.column2.y + param1.z * param2.column2.z + param1.z * param2.column2.w,
-			param1.w * param2.column3.x + param1.w * param2.column3.y + param1.w * param2.column3.z + param1.w * param2.column3.w);
+		mat4 operator * (JFloat param, mat4 vec)
+		{
+			return param * vec;
+		}
+		mat4 operator / (JFloat param, mat4 vec)
+		{
+			return param / vec;
+		}
+		mat4 operator *= (JFloat param, mat4 vec)
+		{
+			return param *= vec;
+		}
+		mat4 operator /= (JFloat param, mat4 vec)
+		{
+			return param /= vec;
+		}
+		vec4 operator * (vec4 &param1, mat4 &param2)
+		{
+			return vec4(
+				param1.x * param2.column0.x + param1.x * param2.column0.y + param1.x * param2.column0.z + param1.x * param2.column0.w,
+				param1.y * param2.column1.x + param1.y * param2.column1.y + param1.y * param2.column1.z + param1.y * param2.column1.w,
+				param1.z * param2.column2.x + param1.z * param2.column2.y + param1.z * param2.column2.z + param1.z * param2.column2.w,
+				param1.w * param2.column3.x + param1.w * param2.column3.y + param1.w * param2.column3.z + param1.w * param2.column3.w);
+		}
 	}
 }

@@ -142,36 +142,39 @@ namespace jml
 		JFloat z;
 	};
 
-	vec3 operator * (JFloat param, vec3 vec)
+	namespace
 	{
-		return param * vec;
-	}
-	vec3 operator / (JFloat param, vec3 vec)
-	{
-		return param / vec;
-	}
-	vec3 operator - (JFloat param, vec3 vec)
-	{
-		return param - vec;
-	}
-	vec3 operator + (JFloat param, vec3 vec)
-	{
-		return param + vec;
-	}
-	vec3 operator *= (JFloat param, vec3 vec)
-	{
-		return param *= vec;
-	}
-	vec3 operator /= (JFloat param, vec3 vec)
-	{
-		return param /= vec;
-	}
-	vec3 operator -= (JFloat param, vec3 vec)
-	{
-		return param -= vec;
-	}
-	vec3 operator += (JFloat param, vec3 vec)
-	{
-		return param += vec;
+		vec3 operator * (JFloat param, vec3 vec)
+		{
+			return param * vec;
+		}
+		vec3 operator / (JFloat param, vec3 vec)
+		{
+			return param / vec;
+		}
+		vec3 operator - (JFloat param, vec3 vec)
+		{
+			return param - vec;
+		}
+		vec3 operator + (JFloat param, vec3 vec)
+		{
+			return param + vec;
+		}
+		vec3 operator *= (JFloat param, vec3 vec)
+		{
+			return param *= vec;
+		}
+		vec3 operator /= (JFloat param, vec3 vec)
+		{
+			return param /= vec;
+		}
+		vec3 operator -= (JFloat param, vec3 vec)
+		{
+			return param -= vec;
+		}
+		vec3 operator += (JFloat param, vec3 vec)
+		{
+			return param += vec;
+		}
 	}
 }

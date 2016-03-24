@@ -10,7 +10,7 @@
 // </copyright>
 // <summary>JML Math Library header file</summary>
 // ***********************************************************************
-
+#pragma once
 #include "Jade_Primitives.h"
 #include "JadeMath.h"
 #include "vec2.h"

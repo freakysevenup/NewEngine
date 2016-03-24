@@ -12,7 +12,6 @@
 // ***********************************************************************
 
 #include "mat4.h"
-#include "mat3.h"
 #include "JadeMath.h"
 
 namespace jml
@@ -120,7 +119,6 @@ namespace jml
 	{
 		return (column0 != param.column0, column1 != param.column1, column2 != param.column2, column3 != param.column3);
 	}
-
 
 	mat4 mat4::InvertMatrix()
 	{

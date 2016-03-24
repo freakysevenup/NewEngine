@@ -245,7 +245,7 @@ namespace jml
 		return (*this * V * conjugate).v;
 	}
 
-	vec3 quat::Euler_Angles(JBool homogenous = true)
+	vec3 quat::Euler_Angles(JBool homogenous/* = true */)
 	{
 		float sqw = w * w;
 		float sqx = v.x * v.x;

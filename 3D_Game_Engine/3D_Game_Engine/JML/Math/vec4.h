@@ -153,36 +153,39 @@ namespace jml
 		JFloat w;
 	};
 
-	vec4 operator * (JFloat param, vec4 vec)
+	namespace
 	{
-		return param * vec;
-	}
-	vec4 operator / (JFloat param, vec4 vec)
-	{
-		return param / vec;
-	}
-	vec4 operator - (JFloat param, vec4 vec)
-	{
-		return param - vec;
-	}
-	vec4 operator + (JFloat param, vec4 vec)
-	{
-		return param + vec;
-	}
-	vec4 operator *= (JFloat param, vec4 vec)
-	{
-		return param *= vec;
-	}
-	vec4 operator /= (JFloat param, vec4 vec)
-	{
-		return param /= vec;
-	}
-	vec4 operator -= (JFloat param, vec4 vec)
-	{
-		return param -= vec;
-	}
-	vec4 operator += (JFloat param, vec4 vec)
-	{
-		return param += vec;
+		vec4 operator * (JFloat param, vec4 vec)
+		{
+			return param * vec;
+		}
+		vec4 operator / (JFloat param, vec4 vec)
+		{
+			return param / vec;
+		}
+		vec4 operator - (JFloat param, vec4 vec)
+		{
+			return param - vec;
+		}
+		vec4 operator + (JFloat param, vec4 vec)
+		{
+			return param + vec;
+		}
+		vec4 operator *= (JFloat param, vec4 vec)
+		{
+			return param *= vec;
+		}
+		vec4 operator /= (JFloat param, vec4 vec)
+		{
+			return param /= vec;
+		}
+		vec4 operator -= (JFloat param, vec4 vec)
+		{
+			return param -= vec;
+		}
+		vec4 operator += (JFloat param, vec4 vec)
+		{
+			return param += vec;
+		}
 	}
 }

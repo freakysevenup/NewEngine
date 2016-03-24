@@ -29,17 +29,17 @@ namespace jml
 		return temp;
 	}
 
-	void vec4::operator () (float xVal, float yVal, float zVal, float wVal)
+	void vec4::operator () (JFloat xVal, JFloat yVal, JFloat zVal, JFloat wVal)
 	{
 		x = xVal; y = yVal; z = zVal; w = wVal;
 	}
 
-	bool vec4::operator == (vec4 &param)
+	JBool vec4::operator == (vec4 &param)
 	{
 		return (x == param.x && y == param.y && z == param.z && w == param.w);
 	}
 
-	bool vec4::operator != (vec4 &param)
+	JBool vec4::operator != (vec4 &param)
 	{
 		return (x != param.x || y != param.y || z != param.z || w != param.w);
 	}
@@ -74,39 +74,39 @@ namespace jml
 		return vec4(x -= param.x, y -= param.y, z -= param.z, w -= param.w);
 	}
 
-	float vec4::operator * (vec4 &param)
+	JFloat vec4::operator * (vec4 &param)
 	{
 		return x * param.x + y * param.y + z * param.z + w * param.w;
 	}
 
-	vec4 vec4::operator * (float param)
+	vec4 vec4::operator * (JFloat param)
 	{
 		vec4 temp(*this);
 		return temp *= param;
 	}
 
-	vec4 vec4::operator *= (float  param)
+	vec4 vec4::operator *= (JFloat  param)
 	{
 		return vec4(x *= param, y *= param, z *= param, w *= param);
 	}
 
-	vec4 vec4::operator / (float param)
+	vec4 vec4::operator / (JFloat param)
 	{
 		vec4 temp(*this);
 		return temp /= param;
 	}
 
-	vec4 vec4::operator /= (float  param)
+	vec4 vec4::operator /= (JFloat  param)
 	{
 		return vec4(x /= param, y /= param, z /= param, w /= param);
 	}
 
-	float vec4::MagnitudeSquared()
+	JFloat vec4::MagnitudeSquared()
 	{
 		return (x * x) + (y * y) + (z * z) + (w * w);
 	}
 
-	float vec4::Magnitude()
+	JFloat vec4::Magnitude()
 	{
 		return j_Sqrt(MagnitudeSquared());
 	}
