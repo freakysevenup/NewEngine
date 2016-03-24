@@ -14,8 +14,11 @@
     <Filter Include="Rendering">
       <UniqueIdentifier>{ba21d565-69f9-431d-8df6-a4430b06ec07}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Math">
-      <UniqueIdentifier>{a87ee0b2-7550-470a-a35f-fe7fe20a0681}</UniqueIdentifier>
+    <Filter Include="JML">
+      <UniqueIdentifier>{a0a5ad26-59df-4a68-9614-f55d5f1fd439}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JML\Math">
+      <UniqueIdentifier>{0f991515-7241-4197-8ba5-fdc9add67145}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -59,29 +62,26 @@
     <ClCompile Include="Rendering\Texture.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Math\JadeCalculator.cpp">
-      <Filter>Math</Filter>
+    <ClCompile Include="JML\Math\JadeMath.cpp">
+      <Filter>JML\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Math\JadeMath.cpp">
-      <Filter>Math</Filter>
+    <ClCompile Include="JML\Math\mat3.cpp">
+      <Filter>JML\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Math\vec2.cpp">
-      <Filter>Math</Filter>
+    <ClCompile Include="JML\Math\mat4.cpp">
+      <Filter>JML\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Math\vec3.cpp">
-      <Filter>Math</Filter>
+    <ClCompile Include="JML\Math\quat.cpp">
+      <Filter>JML\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Math\vec4.cpp">
-      <Filter>Math</Filter>
+    <ClCompile Include="JML\Math\vec2.cpp">
+      <Filter>JML\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Math\mat3.cpp">
-      <Filter>Math</Filter>
+    <ClCompile Include="JML\Math\vec3.cpp">
+      <Filter>JML\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Math\quat.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\mat4.cpp">
-      <Filter>Math</Filter>
+    <ClCompile Include="JML\Math\vec4.cpp">
+      <Filter>JML\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -204,35 +204,32 @@
     <ClInclude Include="Rendering\Vertex.h">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Math\Jade_Primitives.h">
-      <Filter>Math</Filter>
+    <ClInclude Include="JML\Math\JadeMath.h">
+      <Filter>JML\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Math\JadeCalculator.h">
-      <Filter>Math</Filter>
+    <ClInclude Include="JML\Math\JML.h">
+      <Filter>JML\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Math\JadeMath.h">
-      <Filter>Math</Filter>
+    <ClInclude Include="JML\Math\mat3.h">
+      <Filter>JML\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Math\JML.h">
-      <Filter>Math</Filter>
+    <ClInclude Include="JML\Math\mat4.h">
+      <Filter>JML\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Math\vec2.h">
-      <Filter>Math</Filter>
+    <ClInclude Include="JML\Math\quat.h">
+      <Filter>JML\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Math\vec3.h">
-      <Filter>Math</Filter>
+    <ClInclude Include="JML\Math\vec2.h">
+      <Filter>JML\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Math\vec4.h">
-      <Filter>Math</Filter>
+    <ClInclude Include="JML\Math\vec3.h">
+      <Filter>JML\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Math\mat3.h">
-      <Filter>Math</Filter>
+    <ClInclude Include="JML\Math\vec4.h">
+      <Filter>JML\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Math\quat.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\mat4.h">
-      <Filter>Math</Filter>
+    <ClInclude Include="JML\Math\Jade_Primitives.h">
+      <Filter>JML\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
