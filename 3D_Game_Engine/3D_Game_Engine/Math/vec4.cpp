@@ -152,4 +152,8 @@ namespace jml
 		return param * (*this * param) / (param * param);
 	}
 
+	vec3 vec4::GetXYZ()
+	{
+		return vec3(x, y, z);
+	}
 }

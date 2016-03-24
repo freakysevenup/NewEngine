@@ -1,3 +1,16 @@
+// ***********************************************************************
+// Author           : Jesse Derochie
+// Created          : 03-23-2016
+// Created For      : Jade Math Library
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-23-2016
+// ***********************************************************************
+// <copyright file="mat3.cpp">
+//     Copyright (c) Jesse Derochie. All rights reserved.
+// </copyright>
+// <summary>JML mat3 class cpp file</summary>
+// ***********************************************************************
+
 #include "mat3.h"
 #include "JadeMath.h"
 
@@ -83,12 +96,12 @@ namespace jml
 
 	JBool mat3::operator == (mat3 &param)
 	{
-		return (column0 == param.column0 && column1 == param.column1 && column2 == param.column2) ? true : false;
+		return (column0 == param.column0 && column1 == param.column1 && column2 == param.column2);
 	}
 
 	JBool mat3::operator != (mat3 &param)
 	{
-		return (column0 != param.column0 && column1 != param.column1 && column2 != param.column2) ? true : false;
+		return (column0 != param.column0 && column1 != param.column1 && column2 != param.column2);
 	}
 
 	JFloat mat3::GetDeterminant()

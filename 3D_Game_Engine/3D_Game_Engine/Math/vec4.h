@@ -129,6 +129,11 @@ namespace jml
 		/// <param name="param">The parameter.</param>
 		/// <returns></returns>
 		vec4 Projected(vec4 &param);
+		/// <summary>
+		/// Returns the x, y and z components as a vec3.
+		/// </summary>
+		/// <returns></returns>
+		vec3 GetXYZ();
 
 		/// <summary>
 		/// The x value of this vec4

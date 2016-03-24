@@ -59,15 +59,6 @@
     <ClCompile Include="Rendering\Texture.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Matrix3x3.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Matrix4x4.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Error.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
     <ClCompile Include="Math\JadeCalculator.cpp">
       <Filter>Math</Filter>
     </ClCompile>
@@ -87,6 +78,9 @@
       <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="Math\quat.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\mat4.cpp">
       <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
@@ -210,15 +204,6 @@
     <ClInclude Include="Rendering\Vertex.h">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Math\Matrix3x3.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Matrix4x4.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Error.h">
-      <Filter>Math</Filter>
-    </ClInclude>
     <ClInclude Include="Math\Jade_Primitives.h">
       <Filter>Math</Filter>
     </ClInclude>
@@ -244,6 +229,9 @@
       <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="Math\quat.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\mat4.h">
       <Filter>Math</Filter>
     </ClInclude>
   </ItemGroup>

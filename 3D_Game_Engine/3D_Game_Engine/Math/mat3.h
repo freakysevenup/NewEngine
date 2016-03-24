@@ -1,7 +1,17 @@
+// ***********************************************************************
+// Author           : Jesse Derochie
+// Created          : 03-23-2016
+// Created For      : Jade Math Library
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-23-2016
+// ***********************************************************************
+// <copyright file="mat3.h">
+//     Copyright (c) Jesse Derochie. All rights reserved.
+// </copyright>
+// <summary>JML mat3 class header file</summary>
+// ***********************************************************************
+
 /*
-
-Some clarifications, as there have been much confusion about matrix formats etc in the past.
-
 Matrix is column centric
 
    c   c   c
@@ -120,15 +130,15 @@ namespace jml
 		mat3 CreateIdentity();
 
 		/// <summary>
-		/// The column0
+		/// The first column
 		/// </summary>
 		vec3 column0;
 		/// <summary>
-		/// The column1
+		/// The second column
 		/// </summary>
 		vec3 column1;
 		/// <summary>
-		/// The column2
+		/// The third column
 		/// </summary>
 		vec3 column2;
 	};
