@@ -111,8 +111,7 @@ void MainGame::processInput()
 		switch (e.type)
 		{
 		case SDL_QUIT:
-			SDL_Quit();
-			exit(0);
+			m_appState = AppState::EXIT;
 			break;
 		case SDL_MOUSEMOTION:
 			m_input.setMouseCoords((float)e.motion.x, (float)e.motion.y);
@@ -197,6 +196,10 @@ void MainGame::processInput()
 		}
 	}
 
+	if (m_input.isKeyDown(SDLK_ESCAPE))
+	{
+		m_appState = AppState::EXIT;
+	}
 	if (m_input.isKeyDown(SDLK_w))
 	{
 		m_cam.setPosition((m_cam.position() + m_cam.forward()));
@@ -358,7 +361,7 @@ void MainGame::draw()
 
 void MainGame::gameLoop()
 {
-	while (true)
+	while (m_appState == AppState::RUNNING)
 	{
 		m_view.Update();
 		m_view.swapBuffer(0.0f, 0.0f, 0.0f, 1.0f);

@@ -5,6 +5,12 @@
 #include "Rendering/Shape.h"
 #include "Rendering/AssImpModelLoader.h"
 
+enum AppState
+{
+	RUNNING,
+	EXIT
+};
+
 class MainGame
 {
 
@@ -59,5 +65,6 @@ private:
 	glm::vec2 m_offset;
 
 	float m_counter = 0;
+	AppState m_appState = AppState::RUNNING;
 };
 
