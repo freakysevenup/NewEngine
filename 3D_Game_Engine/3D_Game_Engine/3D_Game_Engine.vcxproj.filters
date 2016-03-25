@@ -121,12 +121,6 @@
     <None Include="Assets\Shaders\multiplePointLightVertex.glsl">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Shaders\reflectionFrag.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\reflectionVert.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="Assets\Shaders\cubeShaderFragment - Copy.glsl">
       <Filter>Resource Files</Filter>
     </None>
@@ -155,6 +149,24 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Shaders\skyboxVertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\refractionFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\refractionVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\reflectionFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\reflectionVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\refFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\refVert.glsl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

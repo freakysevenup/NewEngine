@@ -1,25 +1,27 @@
-uniform samplerCube cubeMap;
+#version 400
 
-varying vec3 ViewDirection;
-varying vec3 Normal;
+in vec3 ReflectDir; // The direction of the reflected ray
 
-const float mother_pearl_brightness = 1.5;
+uniform samplerCube CubeMapTex; // The cube map
 
-void main( void )
-{
-   vec3  fvNormal         = normalize(Normal);
-   vec3  fvViewDirection  = normalize(ViewDirection);
-   vec3  fvReflection     = normalize(reflect(fvViewDirection, fvNormal)); 
+uniform bool DrawSkyBox; // Are we drawing the sky box?
 
+uniform float ReflectFactor; // Amount of reflection
 
-   float view_dot_normal = max(dot(fvNormal, fvViewDirection), 0.0);
-   float view_dot_normal_inverse = 1.0 - view_dot_normal;
+uniform vec4 MaterialColor; // Color of the object's "Tint"
 
-   gl_FragColor = textureCube(cubeMap, fvReflection) * view_dot_normal;
-   gl_FragColor.r += mother_pearl_brightness * textureCube(cubeMap, fvReflection + vec3(0.1, 0.0, 0.0) * view_dot_normal_inverse) * (1.0 - view_dot_normal);
-   gl_FragColor.g += mother_pearl_brightness * textureCube(cubeMap, fvReflection + vec3(0.0, 0.1, 0.0) * view_dot_normal_inverse) * (1.0 - view_dot_normal);
-   gl_FragColor.b += mother_pearl_brightness * textureCube(cubeMap, fvReflection + vec3(0.0, 0.0, 0.1) * view_dot_normal_inverse) * (1.0 - view_dot_normal);
+layout( location = 0 ) out vec4 FragColor;
 
-   //gl_FragColor = textureCube(cubeMap, fvReflection);
-
+void main() 
+{  
+// Access the cube map texture
+	vec4 CubeMapColor = texture( CubeMapTex, ReflectDir );
+	if( DrawSkyBox )
+	{
+		FragColor = CubeMapColor;
+	}
+	else
+	{
+		FragColor = mix(MaterialColor, CubeMapColor, ReflectFactor);
+	}
 }

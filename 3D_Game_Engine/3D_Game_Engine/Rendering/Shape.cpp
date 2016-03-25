@@ -3,15 +3,6 @@
 #include <GLM/glm.hpp>
 #include <iostream>
 
-
-Shape::Shape()
-{
-}
-
-Shape::~Shape()
-{
-}
-
 void Shape::draw()
 {
 	this->m_mesh.draw();
@@ -19,12 +10,12 @@ void Shape::draw()
 
 Shape Shape::createShape(
 	ShapeType type,
-	float size,
-	float texturing /* = 1.0f */,
+	float size /* = 1.0f */,
+	float texturing /* = 2.0f */,
 	int resolution /* = 16 */,
-	float width /* = 1.0f */,
-	float height /* = 1.0f */,
-	float depth /* = 1.0f */)
+	float width /* = 0.0f */,
+	float height /* = 0.0f */,
+	float depth /* = 0.0f */)
 {
 	this->setSize(size);
 	this->setResolution(resolution);
@@ -34,20 +25,14 @@ Shape Shape::createShape(
 	case SPHERE:
 		this->setVertices(createSphere(size, resolution, true));
 		break;
-	case CUBE:
-		this->setVertices(createCube(size, texturing));
-		break;
 	case PYRAMID:
 		this->setVertices(createPyramid(size, texturing));
 		break;
-	case PLANE:
-		this->setVertices(createPlane(size, texturing));
-		break;
-	case TEXTURED_CUBE:
-		this->setVertices(createSkyCube(size, texturing));
+	case TETRAHEDRON:
+		this->setVertices(createTetrahedron(size, texturing));
 		break;
 	case CUBOID:
-		this->setVertices(createCuboid(width, height, depth, texturing));
+		this->setVertices(createCuboid(size, width, height, depth, texturing));
 		break;
 	default:
 
@@ -124,102 +109,23 @@ std::vector<Vertex> Shape::createPyramid(float size, float texturing)
 	vertices.emplace_back(glm::vec3(size, -size, size), glm::vec2(tex, texturing), bottomNormal);
 	vertices.emplace_back(glm::vec3(-size, -size, size), glm::vec2(texturing, 0.0f), bottomNormal);
 
-	glCullFace(GL_BACK);
-
 	return vertices;
 }
 
-std::vector<Vertex> Shape::createCube(float size, float texturing)
-{
-	auto tex = texturing / 1.0f;
-
-	std::vector<Vertex> vertices;
-
-
-	glm::vec3 frontNormal = computePlaneNormal(
-		glm::vec3(-size, size, -size),
-		glm::vec3(size, -size, -size),
-		glm::vec3(-size));
-
-	glm::vec3 topNormal = computePlaneNormal(
-		glm::vec3(-size, size, -size),
-		glm::vec3(size),
-		glm::vec3(-size, size, size));
-
-	glm::vec3 rightNormal = computePlaneNormal(
-		glm::vec3(-size, -size, size),
-		glm::vec3(-size),
-		glm::vec3(-size, size, size));
-
-	/* FRONT */
-
-	vertices.emplace_back(glm::vec3(-size, size, -size), glm::vec2(0.0f), frontNormal);
-	vertices.emplace_back(glm::vec3(-size), glm::vec2(tex, texturing), frontNormal);
-	vertices.emplace_back(glm::vec3(size, -size, -size), glm::vec2(texturing, 0.0f), frontNormal);
-	vertices.emplace_back(glm::vec3(size, -size, -size), glm::vec2(0.0f), frontNormal);
-	vertices.emplace_back(glm::vec3(size, size, -size), glm::vec2(tex, texturing), frontNormal);
-	vertices.emplace_back(glm::vec3(-size, size, -size), glm::vec2(texturing, 0.0f), frontNormal);
-
-	/* LEFT */
-
-	vertices.emplace_back(glm::vec3(-size, -size, size), glm::vec2(0.0f), -rightNormal);
-	vertices.emplace_back(glm::vec3(-size), glm::vec2(tex, texturing), -rightNormal);
-	vertices.emplace_back(glm::vec3(-size, size, -size), glm::vec2(texturing, 0.0f), -rightNormal);
-	vertices.emplace_back(glm::vec3(-size, size, -size), glm::vec2(0.0f), -rightNormal);
-	vertices.emplace_back(glm::vec3(-size, size, size), glm::vec2(tex, texturing), -rightNormal);
-	vertices.emplace_back(glm::vec3(-size, -size, size), glm::vec2(texturing, 0.0f), -rightNormal);
-
-	/* RIGHT */
-
-	vertices.emplace_back(glm::vec3(size, -size, -size), glm::vec2(0.0f), rightNormal);
-	vertices.emplace_back(glm::vec3(size, -size, size), glm::vec2(tex, texturing), rightNormal);
-	vertices.emplace_back(glm::vec3(size), glm::vec2(texturing, 0.0f), rightNormal);
-	vertices.emplace_back(glm::vec3(size), glm::vec2(0.0f), rightNormal);
-	vertices.emplace_back(glm::vec3(size, size, -size), glm::vec2(tex, texturing), rightNormal);
-	vertices.emplace_back(glm::vec3(size, -size, -size), glm::vec2(texturing, 0.0f), rightNormal);
-
-	/* BACK */
-
-	vertices.emplace_back(glm::vec3(-size, -size, size), glm::vec2(0.0f), -frontNormal);
-	vertices.emplace_back(glm::vec3(-size, size, size), glm::vec2(tex, texturing), -frontNormal);
-	vertices.emplace_back(glm::vec3(size), glm::vec2(texturing, 0.0f), -frontNormal);
-	vertices.emplace_back(glm::vec3(size), glm::vec2(0.0f), -frontNormal);
-	vertices.emplace_back(glm::vec3(size, -size, size), glm::vec2(tex, texturing), -frontNormal);
-	vertices.emplace_back(glm::vec3(-size, -size, size), glm::vec2(texturing, 0.0f), -frontNormal);
-
-	/* BOTTOM */
-
-	vertices.emplace_back(glm::vec3(-size, size, -size), glm::vec2(0.0f), -topNormal);
-	vertices.emplace_back(glm::vec3(size, size, -size), glm::vec2(tex, texturing), -topNormal);
-	vertices.emplace_back(glm::vec3(size), glm::vec2(texturing, 0.0f), -topNormal);
-	vertices.emplace_back(glm::vec3(size), glm::vec2(0.0f), -topNormal);
-	vertices.emplace_back(glm::vec3(-size, size, size), glm::vec2(tex, texturing), -topNormal);
-	vertices.emplace_back(glm::vec3(-size, size, -size), glm::vec2(texturing, 0.0f), -topNormal);
-
-	/* TOP */
-
-	vertices.emplace_back(glm::vec3(-size), glm::vec2(0.0f), topNormal);
-	vertices.emplace_back(glm::vec3(-size, -size, size), glm::vec2(tex, texturing), topNormal);
-	vertices.emplace_back(glm::vec3(size, -size, -size), glm::vec2(texturing, 0.0f), topNormal);
-	vertices.emplace_back(glm::vec3(size, -size, -size), glm::vec2(0.0f), topNormal);
-	vertices.emplace_back(glm::vec3(-size, -size, size), glm::vec2(tex, texturing), topNormal);
-	vertices.emplace_back(glm::vec3(size, -size, size), glm::vec2(texturing, 0.0f), topNormal);
-
-	glCullFace(GL_FRONT);
-
-	return vertices;
-}
-
-std::vector<Vertex> Shape::createCuboid(float width, float height, float depth, float texturing)
+std::vector<Vertex> Shape::createCuboid(float size, float width, float height, float depth, float texturing)
 {
 	auto tex = texturing / 2.0f;
+	if (width == 0.0f && height == 0.0f && depth == 0.0f)
+	{
+		width = height = depth = size;
+	}
 
 	std::vector<Vertex> vertices;
 
 	glm::vec3 frontNormal = computePlaneNormal(
 		glm::vec3(-width, height, -depth),
 		glm::vec3(width, -height, -depth),
-		glm::vec3(-width, height, depth));
+		glm::vec3(-width, -height, -depth));
 
 	glm::vec3 topNormal = computePlaneNormal(
 		glm::vec3(-width, height, -depth),
@@ -228,64 +134,63 @@ std::vector<Vertex> Shape::createCuboid(float width, float height, float depth, 
 
 	glm::vec3 rightNormal = computePlaneNormal(
 		glm::vec3(-width, -height, depth),
-		glm::vec3(-width, height, depth),
+		glm::vec3(-width, -height, -depth),
 		glm::vec3(-width, height, depth));
-
-	/* Front */
-
-	vertices.emplace_back(glm::vec3(-width, height, -depth), glm::vec2(0.0f), frontNormal);
-	vertices.emplace_back(glm::vec3(-width, -height, -depth), glm::vec2(tex, texturing), frontNormal);
-	vertices.emplace_back(glm::vec3(width, -height, -depth), glm::vec2(texturing, 0.0f), frontNormal);
-	vertices.emplace_back(glm::vec3(width, -height, -depth), glm::vec2(0.0f), frontNormal);
-	vertices.emplace_back(glm::vec3(width, height, -depth), glm::vec2(tex, texturing), frontNormal);
-	vertices.emplace_back(glm::vec3(-width, height, -depth), glm::vec2(texturing, 0.0f), frontNormal);
-
-	/* Right */
-
-	vertices.emplace_back(glm::vec3(-width, -height, depth), glm::vec2(0.0f), -rightNormal);
-	vertices.emplace_back(glm::vec3(-width, -height, -depth), glm::vec2(tex, texturing), -rightNormal);
-	vertices.emplace_back(glm::vec3(-width, height, -depth), glm::vec2(texturing, 0.0f), -rightNormal);
-	vertices.emplace_back(glm::vec3(-width, height, -depth), glm::vec2(0.0f), -rightNormal);
-	vertices.emplace_back(glm::vec3(-width, height, depth), glm::vec2(tex, texturing), -rightNormal);
-	vertices.emplace_back(glm::vec3(-width, -height, depth), glm::vec2(texturing, 0.0f), -rightNormal);
-
-	/* Left */
-
-	vertices.emplace_back(glm::vec3(width, -height, -depth), glm::vec2(0.0f), rightNormal);
-	vertices.emplace_back(glm::vec3(width, -height, depth), glm::vec2(tex, texturing), rightNormal);
-	vertices.emplace_back(glm::vec3(width, height, depth), glm::vec2(texturing, 0.0f), rightNormal);
-	vertices.emplace_back(glm::vec3(width, height, depth), glm::vec2(0.0f), rightNormal);
-	vertices.emplace_back(glm::vec3(width, height, -depth), glm::vec2(tex, texturing), rightNormal);
-	vertices.emplace_back(glm::vec3(width, -height, -depth), glm::vec2(texturing, 0.0f), rightNormal);
 
 	/* Back */
 
-	vertices.emplace_back(glm::vec3(-width, -height, depth), glm::vec2(0.0f), -frontNormal);
-	vertices.emplace_back(glm::vec3(-width, height, depth), glm::vec2(tex, texturing), -frontNormal);
-	vertices.emplace_back(glm::vec3(width, height, depth), glm::vec2(texturing, 0.0f), -frontNormal);
-	vertices.emplace_back(glm::vec3(width, height, depth), glm::vec2(0.0f), -frontNormal);
-	vertices.emplace_back(glm::vec3(width, -height, depth), glm::vec2(tex, texturing), -frontNormal);
-	vertices.emplace_back(glm::vec3(-width, -height, depth), glm::vec2(texturing, 0.0f), -frontNormal);
+	vertices.emplace_back(glm::vec3(-width, height, -depth),		glm::vec2(0.0f, tex),	frontNormal);
+	vertices.emplace_back(glm::vec3(-width, -height, -depth),		glm::vec2(0.0f),		frontNormal);
+	vertices.emplace_back(glm::vec3(width, -height, -depth),		glm::vec2(tex, 0.0f),	frontNormal);
+	vertices.emplace_back(glm::vec3(width, -height, -depth),		glm::vec2(tex, 0.0f),	frontNormal);
+	vertices.emplace_back(glm::vec3(width, height, -depth),		glm::vec2(tex),			frontNormal);
+	vertices.emplace_back(glm::vec3(-width, height, -depth),		glm::vec2(0.0f, tex),	frontNormal);
+
+	/* Left */
+
+	vertices.emplace_back(glm::vec3(-width, -height, depth),		glm::vec2(0.0f),		-rightNormal);
+	vertices.emplace_back(glm::vec3(-width, -height, -depth),		glm::vec2(tex, 0.0f),	-rightNormal);
+	vertices.emplace_back(glm::vec3(-width, height, -depth),		glm::vec2(tex),			-rightNormal);
+	vertices.emplace_back(glm::vec3(-width, height, -depth),		glm::vec2(tex),			-rightNormal);
+	vertices.emplace_back(glm::vec3(-width, height, depth),		glm::vec2(0.0f, tex),	-rightNormal);
+	vertices.emplace_back(glm::vec3(-width, -height, depth),		glm::vec2(0.0f),		-rightNormal);
+
+	/* Right */
+
+	vertices.emplace_back(glm::vec3(width, -height, -depth),		glm::vec2(tex, 0.0f),	rightNormal);
+	vertices.emplace_back(glm::vec3(width, -height, depth),		glm::vec2(0.0f),		rightNormal);
+	vertices.emplace_back(glm::vec3(width, height, depth),			glm::vec2(0.0f, tex),	rightNormal);
+	vertices.emplace_back(glm::vec3(width, height, depth),			glm::vec2(0.0f, tex),	rightNormal);
+	vertices.emplace_back(glm::vec3(width, height, -depth),		glm::vec2(tex),			rightNormal);
+	vertices.emplace_back(glm::vec3(width, -height, -depth),		glm::vec2(tex, 0.0f),	rightNormal);
+
+	/* Front */
+
+	vertices.emplace_back(glm::vec3(-width, -height, depth),		glm::vec2(0.0f),		-frontNormal);
+	vertices.emplace_back(glm::vec3(-width, height, depth),		glm::vec2(0.0f, tex),	-frontNormal);
+	vertices.emplace_back(glm::vec3(width, height, depth),			glm::vec2(tex),			-frontNormal);
+	vertices.emplace_back(glm::vec3(width, height, depth),			glm::vec2(tex),			-frontNormal);
+	vertices.emplace_back(glm::vec3(width, -height, depth),		glm::vec2(tex, 0.0f),	-frontNormal);
+	vertices.emplace_back(glm::vec3(-width, -height, depth),		glm::vec2(0.0f),		-frontNormal);
 
 	/* Top */
 
-	vertices.emplace_back(glm::vec3(-width, height, -depth), glm::vec2(0.0f), -topNormal);
-	vertices.emplace_back(glm::vec3(width, height, -depth), glm::vec2(tex, texturing), -topNormal);
-	vertices.emplace_back(glm::vec3(width, height, depth), glm::vec2(texturing, 0.0f), -topNormal);
-	vertices.emplace_back(glm::vec3(width, height, depth), glm::vec2(0.0f), -topNormal);
-	vertices.emplace_back(glm::vec3(-width, height, depth), glm::vec2(tex, texturing), -topNormal);
-	vertices.emplace_back(glm::vec3(-width, height, -depth), glm::vec2(texturing, 0.0f), -topNormal);
+	vertices.emplace_back(glm::vec3(-width, height, -depth),		glm::vec2(0.0f, tex),	-topNormal);
+	vertices.emplace_back(glm::vec3(width, height, -depth),		glm::vec2(tex),			-topNormal);
+	vertices.emplace_back(glm::vec3(width, height, depth),			glm::vec2(tex, 0.0f),	-topNormal);
+	vertices.emplace_back(glm::vec3(width, height, depth),			glm::vec2(tex, 0.0f),	-topNormal);
+	vertices.emplace_back(glm::vec3(-width, height, depth),		glm::vec2(0.0f),		-topNormal);
+	vertices.emplace_back(glm::vec3(-width, height, -depth),		glm::vec2(0.0f, tex),	-topNormal);
 
 	/* Bottom */
 
-	vertices.emplace_back(glm::vec3(-width, -height, -depth), glm::vec2(0.0f), topNormal);
-	vertices.emplace_back(glm::vec3(-width, -height, depth), glm::vec2(tex, texturing), topNormal);
-	vertices.emplace_back(glm::vec3(width, -height, -depth), glm::vec2(texturing, 0.0f), topNormal);
-	vertices.emplace_back(glm::vec3(width, -height, -depth), glm::vec2(0.0f), topNormal);
-	vertices.emplace_back(glm::vec3(-width, -height, depth), glm::vec2(tex, texturing), topNormal);
-	vertices.emplace_back(glm::vec3(width, -height, depth), glm::vec2(texturing, 0.0f), topNormal);
+	vertices.emplace_back(glm::vec3(-width, -height, -depth),		glm::vec2(0.0f, tex),	topNormal);
+	vertices.emplace_back(glm::vec3(-width, -height, depth),		glm::vec2(0.0f),		topNormal);
+	vertices.emplace_back(glm::vec3(width, -height, -depth),		glm::vec2(tex),			topNormal);
+	vertices.emplace_back(glm::vec3(width, -height, -depth),		glm::vec2(tex),			topNormal);
+	vertices.emplace_back(glm::vec3(-width, -height, depth),		glm::vec2(0.0f),		topNormal);
+	vertices.emplace_back(glm::vec3(width, -height, depth),		glm::vec2(tex, 0.0f),	topNormal);
 
-	glCullFace(GL_FRONT);
 
 	return vertices;
 }
@@ -404,124 +309,53 @@ std::vector<Vertex> Shape::createSphere(float Radius, int Resolution, bool Inver
 	return s_vertices;
 }
 
-std::vector<Vertex> Shape::createPlane(float size, float texturing)
+std::vector<Vertex> Shape::createTetrahedron(float size, float texturing)
 {
-
-	// The order in which you draw the points of a triangle matter
-	// drawn one way the face that gets textured will face down
-	// drawn the other way the face that gets textured will face up
-
 	auto tex = texturing / 2.0f;
+	auto sizer = size / 2.0f;
 
 	std::vector<Vertex> vertices;
 
-	glm::vec3 normal = computePlaneNormal(
-		glm::vec3(-size, 0, size),
-		glm::vec3(size, 0, -size),
-		glm::vec3(size, 0, size));
-
-	vertices.emplace_back(glm::vec3(-size, 0, size), glm::vec2(tex, texturing), -normal);
-	vertices.emplace_back(glm::vec3(size, 0, -size), glm::vec2(texturing, 0.0), -normal);
-	vertices.emplace_back(glm::vec3(-size, 0, -size), glm::vec2(0.0), -normal);
-
-
-	vertices.emplace_back(glm::vec3(size, 0, size), glm::vec2(0.0), -normal);
-	vertices.emplace_back(glm::vec3(size, 0, -size), glm::vec2(texturing, 0.0), -normal);
-	vertices.emplace_back(glm::vec3(-size, 0, size), glm::vec2(tex, texturing), -normal);
-
-	//vertices.emplace_back(glm::vec3(-size, 0, size), glm::vec2(0.0), glm::vec3(-size, 0.0, size));
-	//vertices.emplace_back(glm::vec3(size, 0, -size), glm::vec2(texturing, 0.0), glm::vec3(size, 0.0, -size));
-	//vertices.emplace_back(glm::vec3(-size, 0, -size), glm::vec2(tex, texturing), glm::vec3(-size, 0.0, -size));
-
-
-	//vertices.emplace_back(glm::vec3(size, 0, size), glm::vec2(0.0), glm::vec3(size, 0.0, size));
-	//vertices.emplace_back(glm::vec3(size, 0, -size), glm::vec2(texturing, 0.0), glm::vec3(size, 0.0, -size));
-	//vertices.emplace_back(glm::vec3(-size, 0, size), glm::vec2(tex, texturing), glm::vec3(-size, 0.0, size));
-
-	return vertices;
-
-}
-
-std::vector<Vertex> Shape::createSkyCube(float size, float texturing)
-{
-	float val = 1.0f, tex = 0.0f;// texturing / 2.0f;
-
-	std::vector<Vertex> vertices;
-
+	/* Front */
 	glm::vec3 frontNormal = computePlaneNormal(
-		glm::vec3(-size, size, -size),
-		glm::vec3(size, -size, -size),
-		glm::vec3(-size));
+		glm::vec3(0.0f, size, 0.0f),
+		glm::vec3(-sizer, 0.0f, -sizer),
+		glm::vec3(0.0f, 0.0f, sizer));
 
-	glm::vec3 topNormal = computePlaneNormal(
-		glm::vec3(-size, size, -size),
-		glm::vec3(size),
-		glm::vec3(-size, size, size));
+	vertices.emplace_back(glm::vec3(0.0f, size, 0.0f),			glm::vec2(tex / 2.0f, tex),		frontNormal);
+	vertices.emplace_back(glm::vec3(-sizer, 0.0f, -sizer),		glm::vec2(0.0f),				frontNormal);
+	vertices.emplace_back(glm::vec3(0.0f, 0.0f, sizer),		glm::vec2(tex, 0.0f),			frontNormal);
 
+	/* Right */
 	glm::vec3 rightNormal = computePlaneNormal(
-		glm::vec3(-size, -size, size),
-		glm::vec3(-size),
-		glm::vec3(-size, size, size));
+		glm::vec3(0.0f, size, 0.0f),
+		glm::vec3(sizer, 0.0f, -sizer),
+		glm::vec3(0.0f, 0.0f, sizer));
 
-	glm::vec3 textureUV = glm::vec3(1.0f);
+	vertices.emplace_back(glm::vec3(0.0f, size, 0.0f),			glm::vec2(tex / 2.0f, tex),		rightNormal);
+	vertices.emplace_back(glm::vec3(sizer, 0.0f, -sizer),		glm::vec2(0.0f),				rightNormal);
+	vertices.emplace_back(glm::vec3(0.0f, 0.0f, sizer),		glm::vec2(tex, 0.0f),			rightNormal);
 
+	/* Left */
+	glm::vec3 leftNormal = computePlaneNormal(
+		glm::vec3(0.0f, size, 0.0f),
+		glm::vec3(-sizer, 0.0f, -sizer),
+		glm::vec3(sizer, 0.0f, -sizer));
 
-	/* FRONT */
+	vertices.emplace_back(glm::vec3(0.0f, size, 0.0f),			glm::vec2(tex / 2.0f, tex),		leftNormal);
+	vertices.emplace_back(glm::vec3(-sizer, 0.0f, -sizer),		glm::vec2(0.0f),				leftNormal);
+	vertices.emplace_back(glm::vec3(sizer, 0.0f, -sizer),		glm::vec2(tex, 0.0f),			leftNormal);
 
-	vertices.emplace_back(glm::vec3(-size, size, -size), glm::vec2(texturing), frontNormal);
-	vertices.emplace_back(glm::vec3(-size), glm::vec2(0.0f, texturing), frontNormal);
-	vertices.emplace_back(glm::vec3(size, -size, -size), glm::vec2(texturing, 0.0f), frontNormal);
-	vertices.emplace_back(glm::vec3(size, -size, -size), glm::vec2(0.0f), frontNormal);
-	vertices.emplace_back(glm::vec3(size, size, -size), glm::vec2(0.0f, texturing), frontNormal);
-	vertices.emplace_back(glm::vec3(-size, size, -size), glm::vec2(texturing, 0.0f), frontNormal);
-
-	/* LEFT */
-
-	vertices.emplace_back(glm::vec3(-size, -size, size), glm::vec2(texturing), -rightNormal);
-	vertices.emplace_back(glm::vec3(-size), glm::vec2(0.0f, texturing), -rightNormal);
-	vertices.emplace_back(glm::vec3(-size, size, -size), glm::vec2(texturing, 0.0f), -rightNormal);
-	vertices.emplace_back(glm::vec3(-size, size, -size), glm::vec2(0.0f), -rightNormal);
-	vertices.emplace_back(glm::vec3(-size, size, size), glm::vec2(0.0f, texturing), -rightNormal);
-	vertices.emplace_back(glm::vec3(-size, -size, size), glm::vec2(texturing, 0.0f), -rightNormal);
-
-	/* RIGHT */
-
-	vertices.emplace_back(glm::vec3(size, -size, -size), glm::vec2(texturing), rightNormal);
-	vertices.emplace_back(glm::vec3(size, -size, size), glm::vec2(0.0f, texturing), rightNormal);
-	vertices.emplace_back(glm::vec3(size), glm::vec2(texturing, 0.0f), rightNormal);
-	vertices.emplace_back(glm::vec3(size), glm::vec2(0.0f), rightNormal);
-	vertices.emplace_back(glm::vec3(size, size, -size), glm::vec2(0.0f, texturing), rightNormal);
-	vertices.emplace_back(glm::vec3(size, -size, -size), glm::vec2(texturing, 0.0f), rightNormal);
-
-	/* BACK */
-
-	vertices.emplace_back(glm::vec3(-size, -size, size), glm::vec2(texturing), -frontNormal);
-	vertices.emplace_back(glm::vec3(-size, size, size), glm::vec2(0.0f, texturing), -frontNormal);
-	vertices.emplace_back(glm::vec3(size), glm::vec2(texturing, 0.0f), -frontNormal);
-	vertices.emplace_back(glm::vec3(size), glm::vec2(0.0f), -frontNormal);
-	vertices.emplace_back(glm::vec3(size, -size, size), glm::vec2(0.0f, texturing), -frontNormal);
-	vertices.emplace_back(glm::vec3(-size, -size, size), glm::vec2(texturing, 0.0f), -frontNormal);
-
-	/* BOTTOM */
-
-	vertices.emplace_back(glm::vec3(-size, size, -size), glm::vec2(texturing), -topNormal);
-	vertices.emplace_back(glm::vec3(size, size, -size), glm::vec2(0.0f, texturing), -topNormal);
-	vertices.emplace_back(glm::vec3(size), glm::vec2(texturing, 0.0f), -topNormal);
-	vertices.emplace_back(glm::vec3(size), glm::vec2(0.0f), -topNormal);
-	vertices.emplace_back(glm::vec3(-size, size, size), glm::vec2(0.0f, texturing), -topNormal);
-	vertices.emplace_back(glm::vec3(-size, size, -size), glm::vec2(texturing, 0.0f), -topNormal);
-
-	/* TOP */
-
-	vertices.emplace_back(glm::vec3(-size), glm::vec2(0.0f), topNormal);
-	vertices.emplace_back(glm::vec3(-size, -size, size), glm::vec2(0.0f, texturing), topNormal);
-	vertices.emplace_back(glm::vec3(size, -size, -size), glm::vec2(texturing, 0.0f), topNormal);
-	vertices.emplace_back(glm::vec3(size, -size, -size), glm::vec2(0.0f), topNormal);
-	vertices.emplace_back(glm::vec3(-size, -size, size), glm::vec2(0.0f, texturing), topNormal);
-	vertices.emplace_back(glm::vec3(size, -size, size), glm::vec2(texturing, 0.0f), topNormal);
+	/* Bottom */
+	glm::vec3 bottomNormal = computePlaneNormal(
+		glm::vec3(-sizer, 0.0f, -sizer),
+		glm::vec3(sizer, 0.0f, -sizer),
+		glm::vec3(0.0f, 0.0f, sizer));
 
 
-	glCullFace(GL_BACK);
+	vertices.emplace_back(glm::vec3(-sizer, 0.0f, -sizer),		glm::vec2(tex / 2.0f, tex),		bottomNormal);
+	vertices.emplace_back(glm::vec3(sizer, 0.0f, -sizer),		glm::vec2(0.0f),				bottomNormal);
+	vertices.emplace_back(glm::vec3(0.0f, 0.0f, sizer),		glm::vec2(tex, 0.0f),			bottomNormal);
 
 	return vertices;
 }

@@ -18,7 +18,7 @@ namespace jml
 
 	vec3 vec3::operator () (JFloat xVal, JFloat yVal, JFloat zVal)
 	{
-		x = xVal; y = yVal; z = zVal;
+		return vec3(x = xVal, y = yVal, z = zVal);
 	}
 
 	vec3 vec3::operator + (vec3 &param)

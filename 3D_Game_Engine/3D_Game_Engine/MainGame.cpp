@@ -21,21 +21,21 @@ void MainGame::run()
 void MainGame::init()
 {
 	//// MODEL:
-	//m_model.LoadMesh("./Assets/Models/House/house.obj",
-	//	"./Assets/Models/House/");
+	m_model.LoadMesh("./Assets/Models/sphere.obj", "");
+
 	// TEXTURE:
-	Texture texture("./Assets/Textures/aluminium-texture-6102637.jpg");
+	Texture texture("./Assets/SkyBoxes/dice_block/left.jpg");
 	m_shapeTexture = texture;
 	Texture bulbTexture("./Assets/Textures/aluminium-texture-6102637.jpg");
 	m_bulbTex = bulbTexture;
 
 	std::vector <std::string> cubeTextures;
-	cubeTextures.push_back("./Assets/SkyBoxes/day_sky/front.jpg");
-	cubeTextures.push_back("./Assets/SkyBoxes/day_sky/back.jpg");
-	cubeTextures.push_back("./Assets/SkyBoxes/day_sky/top.jpg");
-	cubeTextures.push_back("./Assets/SkyBoxes/day_sky/bottom.jpg");
-	cubeTextures.push_back("./Assets/SkyBoxes/day_sky/left.jpg");
-	cubeTextures.push_back("./Assets/SkyBoxes/day_sky/right.jpg");
+	cubeTextures.push_back("./Assets/SkyBoxes/CN_Tower/right.jpg");
+	cubeTextures.push_back("./Assets/SkyBoxes/CN_Tower/left.jpg");
+	cubeTextures.push_back("./Assets/SkyBoxes/CN_Tower/top.jpg");
+	cubeTextures.push_back("./Assets/SkyBoxes/CN_Tower/bottom.jpg");
+	cubeTextures.push_back("./Assets/SkyBoxes/CN_Tower/back.jpg");
+	cubeTextures.push_back("./Assets/SkyBoxes/CN_Tower/front.jpg");
 
 	Texture cubeTexture;
 	cubeTexture.createCubeMap(
@@ -47,19 +47,41 @@ void MainGame::init()
 		cubeTextures[5].c_str()
 		);
 
+	std::vector <std::string> diceCubeTextures;
+	diceCubeTextures.push_back("./Assets/SkyBoxes/dice_block/right.jpg");
+	diceCubeTextures.push_back("./Assets/SkyBoxes/dice_block/left.jpg");
+	diceCubeTextures.push_back("./Assets/SkyBoxes/dice_block/top.jpg");
+	diceCubeTextures.push_back("./Assets/SkyBoxes/dice_block/bottom.jpg");
+	diceCubeTextures.push_back("./Assets/SkyBoxes/dice_block/back.jpg");
+	diceCubeTextures.push_back("./Assets/SkyBoxes/dice_block/front.jpg");
+
+	Texture diceCubeTexture;
+	diceCubeTexture.createCubeMap(
+		diceCubeTextures[0].c_str(),
+		diceCubeTextures[1].c_str(),
+		diceCubeTextures[2].c_str(),
+		diceCubeTextures[3].c_str(),
+		diceCubeTextures[4].c_str(),
+		diceCubeTextures[5].c_str()
+		);
+
 	m_skyBoxTex = cubeTexture;
+	m_diceBlockTex = diceCubeTexture;
 
 	// SHAPE:
-	m_shape.createShape(SPHERE, 1.0f, 2.0f, 512);
+	m_shape.createShape(CUBOID, 20.0f, 0.0f);
 	Mesh cubeMesh(m_shape.getVertices(), m_shape.getVertices().size());
 
-	m_shape2.createShape(SPHERE, 1.0f, 2.0f, 512);
+	m_shape2.createShape(CUBOID);
 	Mesh cube2Mesh(m_shape2.getVertices(), m_shape2.getVertices().size());
 
-	m_lightBulb.createShape(SPHERE, 0.25f, 2.0f, 16);
+	m_shape3.createShape(CUBOID);
+	Mesh cube3Mesh(m_shape3.getVertices(), m_shape3.getVertices().size());
+
+	m_lightBulb.createShape(SPHERE, 0.15f, 2.0f, 16);
 	Mesh bulbMesh(m_lightBulb.getVertices(), m_lightBulb.getVertices().size());
 
-	m_skyBox.createShape(CUBE, 2000.0f, 0.0f);
+	m_skyBox.createShape(CUBOID);
 	Mesh skyBoxMesh(m_skyBox.getVertices(), m_skyBox.getVertices().size());
 
 	ShaderNova basic;
@@ -91,6 +113,50 @@ void MainGame::init()
 	skyBox.linkShaders();
 
 	setSkyBoxShaderProgram(skyBox);
+
+	ShaderNova reflection;
+
+	std::vector<std::string> reflectionShaderFiles;
+	reflectionShaderFiles.push_back("./Assets/Shaders/reflectionVert.glsl");
+	reflectionShaderFiles.push_back("./Assets/Shaders/reflectionFrag.glsl");
+
+	reflection.compileShadersFromFile(reflectionShaderFiles);
+
+	reflection.addAttributes("position");
+	reflection.addAttributes("textureCoords");
+	reflection.addAttributes("normal");
+	reflection.linkShaders();
+
+	setReflectionShaderProgram(reflection);
+
+	ShaderNova refraction;
+
+	std::vector<std::string> refractionShaderFiles;
+	refractionShaderFiles.push_back("./Assets/Shaders/refractionVert.glsl");
+	refractionShaderFiles.push_back("./Assets/Shaders/refractionFrag.glsl");
+
+	refraction.compileShadersFromFile(refractionShaderFiles);
+
+	refraction.addAttributes("position");
+	refraction.addAttributes("textureCoords");
+	refraction.addAttributes("normal");
+	refraction.linkShaders();
+
+	setRefractionShaderProgram(refraction);
+
+	ShaderNova ref;
+
+	std::vector<std::string> refShaderFiles;
+	refShaderFiles.push_back("./Assets/Shaders/refVert.glsl");
+	refShaderFiles.push_back("./Assets/Shaders/refFrag.glsl");
+
+	ref.compileShadersFromFile(refShaderFiles);
+
+	ref.addAttributes("position");
+	ref.addAttributes("normal");
+	ref.linkShaders();
+
+	setRefractionShaderProgram(ref);
 
 	// CAMERA INIT:
 	m_cam.setPosition(glm::vec3(0.0f, -3.0f, 10.0f));
@@ -226,12 +292,12 @@ void MainGame::processInput()
 	}
 	if (LEFT_ROTATION_PANE || RIGHT_ROTATION_PANE)
 	{
-		m_cam.offsetOrientation(0.0f, m_offset.x);
+		m_cam.offsetOrientation(0.0f, m_offset.x * 3.5f);
 	}
 
 	if (TOP_ROTATION_PANE || BOTTOM_ROTATION_PANE)
 	{
-		m_cam.offsetOrientation(-m_offset.y, 0.0f);
+		m_cam.offsetOrientation(-m_offset.y * 3.5f, 0.0f);
 	}
 }
 
@@ -258,7 +324,7 @@ void MainGame::draw()
 	glUniformMatrix4fv(normalMUniform, 1, GL_FALSE, &normalMMatrix[0][0]);
 
 	GLint lightMUniform = m_shader.getUniformLocation("lightPos");
-	//glm::vec3 lightMPosition = glm::vec3(0.0f, 3.0f, -2.0f);
+
 	glm::vec3 lightPosition = glm::vec3(
 		cosf(m_counter * 1000),
 		sinf(m_counter * 400),
@@ -275,57 +341,129 @@ void MainGame::draw()
 
 	///////////////////////////////////
 
-	m_skyBoxShader.startUse();
+	m_reflectionShader.startUse();
+
+	GLint viewSkyBox = m_reflectionShader.getUniformLocation("view");
+	glm::mat4 viewMatSkyBox = m_cam.view();
+	glUniformMatrix4fv(viewSkyBox, 1, GL_FALSE, &viewMatSkyBox[0][0]);
+
+	GLint projectionSkyBox = m_reflectionShader.getUniformLocation("projection");
+	glm::mat4 projectionMatSkyBox = m_cam.projection();
+	glUniformMatrix4fv(projectionSkyBox, 1, GL_FALSE, &projectionMatSkyBox[0][0]);
+
+	GLint modelUniformSkyBox = m_reflectionShader.getUniformLocation("model");
+	glm::mat4 modelMatrixSkyBox = m_skyBox.getModel();
+	glUniformMatrix4fv(modelUniformSkyBox, 1, GL_FALSE, &modelMatrixSkyBox[0][0]);
+
+	GLint camPosSkyBox = m_reflectionShader.getUniformLocation("cameraPos");
+	glm::vec3 camPositionSkyBox = m_cam.position();
+	glUniform3fv(camPosSkyBox, 1, &camPositionSkyBox[0]);
+
+	GLint tintColourSkyBox = m_reflectionShader.getUniformLocation("MaterialColor");
+	glm::vec4 tintColourVecSkyBox = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
+	glUniformMatrix4fv(tintColourSkyBox, 1, GL_FALSE, &tintColourVecSkyBox[0]);
+
+	GLint drawSkyBoxA = m_reflectionShader.getUniformLocation("DrawSkyBox");
+	bool isSkyBoxA = true;
+	glUniform1i(drawSkyBoxA, isSkyBoxA);
+
+	GLint reflectFactorSkyBox = m_reflectionShader.getUniformLocation("ReflectFactor");
+	float reflectAmountSkyBox = 1.0f;
+	glUniform1f(reflectFactorSkyBox, reflectAmountSkyBox);
 
 	m_skyBoxTex.bindCube(0);
 
-	//m_skyBox.setPosition(m_cam.position());
-	//m_skyBox.setRotation(glm::vec3(0.0f));
-	//m_skyBox.setScale(glm::vec3(1.0f));
-
-	GLint camSkyBoxUniform = m_skyBoxShader.getUniformLocation("camera");
-	glm::mat4 cameraSkyBoxMatrix = m_cam.matrix();
-	glUniformMatrix4fv(camSkyBoxUniform, 1, GL_FALSE, &cameraSkyBoxMatrix[0][0]);
-
-	//GLint modelSkyBoxUniform = m_shader.getUniformLocation("model");
-	//glm::mat4 modelSkyBoxMatrix = m_skyBox.getModel();
-	//glUniformMatrix4fv(modelSkyBoxUniform, 1, GL_FALSE, &modelSkyBoxMatrix[0][0]);
+	m_skyBox.setPosition(m_cam.position());
+	m_skyBox.setRotation(glm::vec3(0.0f));
+	m_skyBox.setScale(glm::vec3(2000.0f));
 
 	m_skyBox.draw();
 
-	m_skyBoxShader.stopUse();
+	m_reflectionShader.stopUse();
+
+	////////////////////////////////////////////////////////////////////
+	//REFRACTION SHADER
+
+	m_refractionShader.startUse();
+
+	GLint view1 = m_refractionShader.getUniformLocation("view");
+	glm::mat4 view1Mat = m_cam.view();
+	glUniformMatrix4fv(view1, 1, GL_FALSE, &view1Mat[0][0]);
+
+	GLint projection1 = m_refractionShader.getUniformLocation("projection");
+	glm::mat4 projection1Mat = m_cam.projection();
+	glUniformMatrix4fv(projection1, 1, GL_FALSE, &projection1Mat[0][0]);
+
+	GLint modelUniform1 = m_refractionShader.getUniformLocation("model");
+	glm::mat4 modelMatrix1 = m_shape3.getModel();
+	glUniformMatrix4fv(modelUniform1, 1, GL_FALSE, &modelMatrix1[0][0]);
+
+	GLint camPos1 = m_refractionShader.getUniformLocation("cameraPos");
+	glm::vec3 camPosition1 = m_cam.position();
+	glUniform3fv(camPos1, 1, &camPosition1[0]);
+
+	//GLint lightUniform = m_refractionShader.getUniformLocation("lightPos");
+	//glUniform3fv(lightUniform, 1, &lightPosition[0]);
+
+	//m_shapeTexture.bind2D(0);
+	m_skyBoxTex.bindCube(0);
+
+	m_shape3.setPosition(glm::vec3(70.0f, 10.0f, -90.0f));
+	m_shape3.setRotation(glm::vec3(0.0f));
+	m_shape3.setScale(glm::vec3(10.0f));
+
+	m_shape3.draw();
+
+	m_refractionShader.stopUse();
+
 
 	///////////////////////////////////
+	//REFLECTION SHADER
 
+	m_reflectionShader.startUse();
 
-	m_shader.startUse();
+	GLint view = m_reflectionShader.getUniformLocation("view");
+	glm::mat4 viewMat = m_cam.view();
+	glUniformMatrix4fv(view, 1, GL_FALSE, &viewMat[0][0]);
 
-	GLint camUniform = m_shader.getUniformLocation("camera");
-	glm::mat4 cameraMatrix = m_cam.matrix();
-	glUniformMatrix4fv(camUniform, 1, GL_FALSE, &cameraMatrix[0][0]);
+	GLint projection = m_reflectionShader.getUniformLocation("projection");
+	glm::mat4 projectionMat = m_cam.projection();
+	glUniformMatrix4fv(projection, 1, GL_FALSE, &projectionMat[0][0]);
 
-	GLint modelUniform = m_shader.getUniformLocation("model");
+	GLint modelUniform = m_reflectionShader.getUniformLocation("model");
 	glm::mat4 modelMatrix = m_shape.getModel();
 	glUniformMatrix4fv(modelUniform, 1, GL_FALSE, &modelMatrix[0][0]);
 
-	GLint normalUniform = m_shader.getUniformLocation("normalMat");
-	glm::mat4 normalMatrix = m_shape.getNormalMatrix();
-	glUniformMatrix4fv(normalUniform, 1, GL_FALSE, &normalMatrix[0][0]);
+	GLint camPos = m_reflectionShader.getUniformLocation("cameraPos");
+	glm::vec3 camPosition = m_cam.position();// +m_cam.forward();
+	glUniform3fv(camPos, 1, &camPosition[0]);
 
-	GLint lightUniform = m_shader.getUniformLocation("lightPos");
+	GLint tintColour = m_reflectionShader.getUniformLocation("MaterialColor");
+	glm::vec4 tintColourVec = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
+	glUniformMatrix4fv(tintColour, 1, GL_FALSE, &tintColourVec[0]);
+
+	GLint drawSkyBox = m_reflectionShader.getUniformLocation("DrawSkyBox");
+	bool isSkyBox = false;
+	glUniform1i(drawSkyBox, isSkyBox);
+
+	GLint reflectFactor = m_reflectionShader.getUniformLocation("ReflectFactor");
+	float reflectAmount = 0.85f;
+	glUniform1f(reflectFactor, reflectAmount);
+
+	GLint lightUniform = m_refractionShader.getUniformLocation("lightPos");
 	glUniform3fv(lightUniform, 1, &lightPosition[0]);
 
-	m_shapeTexture.bind2D(0);
+	m_skyBoxTex.bindCube(0);
 
-	m_shape.setPosition(glm::vec3(-30.0f, 0.0f, 20.0f));
-	m_shape.setRotation(glm::vec3(cosf(m_counter)));
-	m_shape.setScale(glm::vec3(10.0f));
+	m_shape.setPosition(glm::vec3(-70.0f, 10.0f, 90.0f));
+	m_shape.setRotation(glm::vec3(0.0f));
+	m_shape.setScale(glm::vec3(1.0f));
 
 	m_shape.draw();
 
-	m_shader.stopUse();
+	m_reflectionShader.stopUse();
 
-	////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////
 
 	m_shader.startUse();
 
@@ -346,7 +484,7 @@ void MainGame::draw()
 
 	m_bulbTex.bind2D(0);
 
-	m_lightBulb.setPosition(lightPosition);
+	m_lightBulb.setPosition(lightPosition - 1.0f);
 	m_lightBulb.setRotation(glm::vec3(0.0f));
 	m_lightBulb.setScale(glm::vec3(1.0f));
 
