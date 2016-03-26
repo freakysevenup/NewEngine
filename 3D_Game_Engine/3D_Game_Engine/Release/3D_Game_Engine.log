@@ -1,7 +1,15 @@
-﻿Build started 3/24/2016 7:22:59 PM.
+﻿Build started 3/25/2016 7:48:01 PM.
      1>Project "J:\GitHub\NewEngine\3D_Game_Engine\3D_Game_Engine\3D_Game_Engine.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt MainGame.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Core\ViewPort.cpp JML\Math\mat3.cpp JML\Math\mat4.cpp JML\Math\quat.cpp JML\Math\vec3.cpp JML\Math\vec4.cpp MainGame.cpp
+         ViewPort.cpp
+         mat3.cpp
+         mat4.cpp
+     1>JML\Math\mat4.cpp(125): warning C4244: 'argument' : conversion from 'double' to 'jml::JFloat', possible loss of data
+         quat.cpp
+         vec3.cpp
+         vec4.cpp
+     1>JML\Math\vec4.cpp(29): warning C4172: returning address of local variable or temporary
          MainGame.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"J:\GitHub\NewEngine\3D_Game_Engine\Release\3D_Game_Engine.exe" /INCREMENTAL:NO /NOLOGO opengl32.lib glew32.lib SDL2.lib SDL2main.lib assimp.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"J:\GitHub\NewEngine\3D_Game_Engine\Release\3D_Game_Engine.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"J:\GitHub\NewEngine\3D_Game_Engine\Release\3D_Game_Engine.lib" /MACHINE:X86 /SAFESEH Release\Camera3D.obj
@@ -26,10 +34,25 @@
          Release\stb_image.obj
          Release\Texture.obj
          Generating code
+     1>j:\github\newengine\3d_game_engine\3d_game_engine\rendering\shadernova.cpp(201): warning C4715: 'ShaderNova::getUniformLocation' : not all control paths return a value
          Finished generating code
+     1>Camera3D.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'Camera3D.obj' or at 'J:\GitHub\NewEngine\3D_Game_Engine\Release\vc120.pdb'; linking object as if no debug info
+     1>InputManager.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'InputManager.obj' or at 'J:\GitHub\NewEngine\3D_Game_Engine\Release\vc120.pdb'; linking object as if no debug info
+     1>IOManager.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'IOManager.obj' or at 'J:\GitHub\NewEngine\3D_Game_Engine\Release\vc120.pdb'; linking object as if no debug info
+     1>JadeMath.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'JadeMath.obj' or at 'J:\GitHub\NewEngine\3D_Game_Engine\Release\vc120.pdb'; linking object as if no debug info
+     1>vec2.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'vec2.obj' or at 'J:\GitHub\NewEngine\3D_Game_Engine\Release\vc120.pdb'; linking object as if no debug info
+     1>main.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'main.obj' or at 'J:\GitHub\NewEngine\3D_Game_Engine\Release\vc120.pdb'; linking object as if no debug info
+     1>AssImpModelLoader.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'AssImpModelLoader.obj' or at 'J:\GitHub\NewEngine\3D_Game_Engine\Release\vc120.pdb'; linking object as if no debug info
+     1>Lighting.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'Lighting.obj' or at 'J:\GitHub\NewEngine\3D_Game_Engine\Release\vc120.pdb'; linking object as if no debug info
+     1>Mesh.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'Mesh.obj' or at 'J:\GitHub\NewEngine\3D_Game_Engine\Release\vc120.pdb'; linking object as if no debug info
+     1>ShaderManager.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'ShaderManager.obj' or at 'J:\GitHub\NewEngine\3D_Game_Engine\Release\vc120.pdb'; linking object as if no debug info
+     1>ShaderNova.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'ShaderNova.obj' or at 'J:\GitHub\NewEngine\3D_Game_Engine\Release\vc120.pdb'; linking object as if no debug info
+     1>Shape.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'Shape.obj' or at 'J:\GitHub\NewEngine\3D_Game_Engine\Release\vc120.pdb'; linking object as if no debug info
+     1>stb_image.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'stb_image.obj' or at 'J:\GitHub\NewEngine\3D_Game_Engine\Release\vc120.pdb'; linking object as if no debug info
+     1>Texture.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'Texture.obj' or at 'J:\GitHub\NewEngine\3D_Game_Engine\Release\vc120.pdb'; linking object as if no debug info
          3D_Game_Engine.vcxproj -> J:\GitHub\NewEngine\3D_Game_Engine\Release\3D_Game_Engine.exe
      1>Done Building Project "J:\GitHub\NewEngine\3D_Game_Engine\3D_Game_Engine\3D_Game_Engine.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.28
+Time Elapsed 00:00:02.97

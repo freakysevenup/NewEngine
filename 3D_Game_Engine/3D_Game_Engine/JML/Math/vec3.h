@@ -74,6 +74,15 @@ namespace jml
 		JBool operator < (vec3 &param);
 		JBool operator > (vec3 &param);
 
+		friend vec3 operator * (JFloat param, vec3 vec);
+		friend vec3 operator / (JFloat param, vec3 vec);
+		friend vec3 operator - (JFloat param, vec3 vec);
+		friend vec3 operator + (JFloat param, vec3 vec);
+		friend vec3 operator *= (JFloat param, vec3 vec);
+		friend vec3 operator /= (JFloat param, vec3 vec);
+		friend vec3 operator -= (JFloat param, vec3 vec);
+		friend vec3 operator += (JFloat param, vec3 vec);
+
 		/// <summary>
 		/// Returns a unit vector
 		/// </summary>
@@ -141,40 +150,4 @@ namespace jml
 		/// </summary>
 		JFloat z;
 	};
-
-	namespace
-	{
-		vec3 operator * (JFloat param, vec3 vec)
-		{
-			return param * vec;
-		}
-		vec3 operator / (JFloat param, vec3 vec)
-		{
-			return param / vec;
-		}
-		vec3 operator - (JFloat param, vec3 vec)
-		{
-			return param - vec;
-		}
-		vec3 operator + (JFloat param, vec3 vec)
-		{
-			return param + vec;
-		}
-		vec3 operator *= (JFloat param, vec3 vec)
-		{
-			return param *= vec;
-		}
-		vec3 operator /= (JFloat param, vec3 vec)
-		{
-			return param /= vec;
-		}
-		vec3 operator -= (JFloat param, vec3 vec)
-		{
-			return param -= vec;
-		}
-		vec3 operator += (JFloat param, vec3 vec)
-		{
-			return param += vec;
-		}
-	}
 }

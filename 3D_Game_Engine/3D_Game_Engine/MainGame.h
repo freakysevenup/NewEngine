@@ -34,7 +34,6 @@ private:
 	void setViewPort(ViewPort & view) { m_view = view; }
 	void setTexture(Texture & tex) { m_shapeTexture = tex; }
 	void setShaderProgram(ShaderNova & shader) { m_shader = shader; }
-	void setSkyBoxShaderProgram(ShaderNova & shader) { m_skyBoxShader = shader; }
 	void setReflectionShaderProgram(ShaderNova & shader) { m_reflectionShader = shader; }
 	void setRefractionShaderProgram(ShaderNova & shader) { m_refractionShader = shader; }
 	void setRefShaderProgram(ShaderNova & shader) { m_refShader = shader; }
@@ -60,7 +59,7 @@ private:
 
 	Camera3D m_cam;
 	ViewPort m_view;
-	ShaderNova m_shader, m_skyBoxShader, m_reflectionShader, m_refractionShader, m_refShader;
+	ShaderNova m_shader, m_reflectionShader, m_refractionShader, m_refShader;
 	Shape m_shape, m_shape2, m_shape3, m_lightBulb, m_skyBox;
 	Texture m_shapeTexture, m_bulbTex, m_skyBoxTex, m_diceBlockTex;
 	InputManager m_input;

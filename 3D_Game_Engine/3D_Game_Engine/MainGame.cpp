@@ -84,6 +84,8 @@ void MainGame::init()
 	m_skyBox.createShape(CUBOID);
 	Mesh skyBoxMesh(m_skyBox.getVertices(), m_skyBox.getVertices().size());
 
+	// Create Blinn-Phong Shader
+
 	ShaderNova basic;
 
 	std::vector<std::string> shaderFiles;
@@ -99,20 +101,7 @@ void MainGame::init()
 
 	setShaderProgram(basic);
 
-	ShaderNova skyBox;
-
-	std::vector<std::string> skyBoxShaderFiles;
-	skyBoxShaderFiles.push_back("./Assets/Shaders/cubeShaderVertex.glsl");
-	skyBoxShaderFiles.push_back("./Assets/Shaders/cubeShaderFragment.glsl");
-
-	skyBox.compileShadersFromFile(skyBoxShaderFiles);
-
-	skyBox.addAttributes("position");
-	skyBox.addAttributes("textureCoords");
-	skyBox.addAttributes("normal");
-	skyBox.linkShaders();
-
-	setSkyBoxShaderProgram(skyBox);
+	// Create Reflection Shader
 
 	ShaderNova reflection;
 
@@ -129,6 +118,8 @@ void MainGame::init()
 
 	setReflectionShaderProgram(reflection);
 
+	// Create Refraction Shader
+
 	ShaderNova refraction;
 
 	std::vector<std::string> refractionShaderFiles;
@@ -138,11 +129,12 @@ void MainGame::init()
 	refraction.compileShadersFromFile(refractionShaderFiles);
 
 	refraction.addAttributes("position");
-	refraction.addAttributes("textureCoords");
 	refraction.addAttributes("normal");
 	refraction.linkShaders();
 
 	setRefractionShaderProgram(refraction);
+
+	// Create Reference Shader (Testing Purposes)
 
 	ShaderNova ref;
 
@@ -355,7 +347,7 @@ void MainGame::draw()
 	glm::mat4 modelMatrixSkyBox = m_skyBox.getModel();
 	glUniformMatrix4fv(modelUniformSkyBox, 1, GL_FALSE, &modelMatrixSkyBox[0][0]);
 
-	GLint camPosSkyBox = m_reflectionShader.getUniformLocation("cameraPos");
+	GLint camPosSkyBox = m_reflectionShader.getUniformLocation("camPosition");
 	glm::vec3 camPositionSkyBox = m_cam.position();
 	glUniform3fv(camPosSkyBox, 1, &camPositionSkyBox[0]);
 
@@ -398,9 +390,17 @@ void MainGame::draw()
 	glm::mat4 modelMatrix1 = m_shape3.getModel();
 	glUniformMatrix4fv(modelUniform1, 1, GL_FALSE, &modelMatrix1[0][0]);
 
-	GLint camPos1 = m_refractionShader.getUniformLocation("cameraPos");
+	GLint camPos1 = m_refractionShader.getUniformLocation("camPosition");
 	glm::vec3 camPosition1 = m_cam.position();
 	glUniform3fv(camPos1, 1, &camPosition1[0]);
+
+	//GLint reflectFactorRefraction = m_refractionShader.getUniformLocation("ReflectFactor");
+	//float reflectAmountRefraction = 1.0f;
+	//glUniform1f(reflectFactorRefraction, reflectAmountRefraction);
+
+	//GLint refractFactor = m_refractionShader.getUniformLocation("RefractFactor");
+	//float refractAmount = 1.0f;
+	//glUniform1f(refractFactor, refractAmount);
 
 	//GLint lightUniform = m_refractionShader.getUniformLocation("lightPos");
 	//glUniform3fv(lightUniform, 1, &lightPosition[0]);
@@ -434,7 +434,7 @@ void MainGame::draw()
 	glm::mat4 modelMatrix = m_shape.getModel();
 	glUniformMatrix4fv(modelUniform, 1, GL_FALSE, &modelMatrix[0][0]);
 
-	GLint camPos = m_reflectionShader.getUniformLocation("cameraPos");
+	GLint camPos = m_reflectionShader.getUniformLocation("camPosition");
 	glm::vec3 camPosition = m_cam.position();// +m_cam.forward();
 	glUniform3fv(camPos, 1, &camPosition[0]);
 
@@ -450,8 +450,8 @@ void MainGame::draw()
 	float reflectAmount = 0.85f;
 	glUniform1f(reflectFactor, reflectAmount);
 
-	GLint lightUniform = m_refractionShader.getUniformLocation("lightPos");
-	glUniform3fv(lightUniform, 1, &lightPosition[0]);
+	//GLint lightUniform = m_refractionShader.getUniformLocation("lightPos");
+	//glUniform3fv(lightUniform, 1, &lightPosition[0]);
 
 	m_skyBoxTex.bindCube(0);
 

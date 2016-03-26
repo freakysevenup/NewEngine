@@ -106,6 +106,39 @@ namespace jml
 		return (j_Abs(x) > j_Abs(param.x) && j_Abs(y) > j_Abs(param.y) && j_Abs(z) > j_Abs(param.z)) ? true : false;
 	}
 
+	vec3 operator * (JFloat param, vec3 vec)
+	{
+		return param * vec;
+	}
+	vec3 operator / (JFloat param, vec3 vec)
+	{
+		return param / vec;
+	}
+	vec3 operator - (JFloat param, vec3 vec)
+	{
+		return param - vec;
+	}
+	vec3 operator + (JFloat param, vec3 vec)
+	{
+		return param + vec;
+	}
+	vec3 operator *= (JFloat param, vec3 vec)
+	{
+		return param *= vec;
+	}
+	vec3 operator /= (JFloat param, vec3 vec)
+	{
+		return param /= vec;
+	}
+	vec3 operator -= (JFloat param, vec3 vec)
+	{
+		return param -= vec;
+	}
+	vec3 operator += (JFloat param, vec3 vec)
+	{
+		return param += vec;
+	}
+
 	vec3 vec3::GetUnitVector()
 	{
 		JFloat temp = MagnitudeSquared();
