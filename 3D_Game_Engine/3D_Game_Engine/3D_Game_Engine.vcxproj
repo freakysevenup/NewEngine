@@ -107,32 +107,6 @@
     <ClCompile Include="Rendering\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Shaders\basicShaderFrag.glsl" />
-    <None Include="Assets\Shaders\basicShaderVert.glsl" />
-    <None Include="Assets\Shaders\blinnPhongFrag.glsl" />
-    <None Include="Assets\Shaders\blinnPhongVert.glsl" />
-    <None Include="Assets\Shaders\cubeShaderFragment - Copy.glsl" />
-    <None Include="Assets\Shaders\cubeShaderFragment.glsl" />
-    <None Include="Assets\Shaders\cubeShaderVertex - Copy.glsl" />
-    <None Include="Assets\Shaders\cubeShaderVertex.glsl" />
-    <None Include="Assets\Shaders\dualConeSpotLightFrag.glsl" />
-    <None Include="Assets\Shaders\dualConeSpotLightVertex.glsl" />
-    <None Include="Assets\Shaders\example_only_reflection.frag.glsl" />
-    <None Include="Assets\Shaders\example_only_reflection.vs.glsl" />
-    <None Include="Assets\Shaders\glowShaderFrag.glsl" />
-    <None Include="Assets\Shaders\glowShaderVert.glsl" />
-    <None Include="Assets\Shaders\multiplePointLightFragment.glsl" />
-    <None Include="Assets\Shaders\multiplePointLightVertex.glsl" />
-    <None Include="Assets\Shaders\pointLightFrag.glsl" />
-    <None Include="Assets\Shaders\pointLightVert.glsl" />
-    <None Include="Assets\Shaders\reflectionFrag.glsl" />
-    <None Include="Assets\Shaders\reflectionVert.glsl" />
-    <None Include="Assets\Shaders\skyboxFragment.glsl" />
-    <None Include="Assets\Shaders\skyboxVertex.glsl" />
-    <None Include="Assets\Shaders\spotLightFrag.glsl" />
-    <None Include="Assets\Shaders\spotLightVert.glsl" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Core\Camera3D.h" />
     <ClInclude Include="Core\InputManager.h" />
     <ClInclude Include="Core\IOManager.h" />
@@ -157,6 +131,20 @@
     <ClInclude Include="Rendering\Texture.h" />
     <ClInclude Include="Rendering\Transform.h" />
     <ClInclude Include="Rendering\Vertex.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Shaders\basicShaderFrag.glsl" />
+    <None Include="Assets\Shaders\basicShaderVert.glsl" />
+    <None Include="Assets\Shaders\blinnPhongFrag.glsl" />
+    <None Include="Assets\Shaders\blinnPhongVert.glsl" />
+    <None Include="Assets\Shaders\celShaderFrag.glsl" />
+    <None Include="Assets\Shaders\celShaderVert.glsl" />
+    <None Include="Assets\Shaders\glowShaderFrag.glsl" />
+    <None Include="Assets\Shaders\glowShaderVert.glsl" />
+    <None Include="Assets\Shaders\reflectionFrag.glsl" />
+    <None Include="Assets\Shaders\reflectionVert.glsl" />
+    <None Include="Assets\Shaders\refractionFrag.glsl" />
+    <None Include="Assets\Shaders\refractionVert.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

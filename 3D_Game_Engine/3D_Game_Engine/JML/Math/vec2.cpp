@@ -17,7 +17,7 @@ namespace jml
 {
 	vec2 vec2::operator () (JFloat xVal, JFloat yVal)
 	{
-		x = xVal; y = yVal;
+		return vec2(x = xVal, y = yVal);
 	}
 
 	vec2 vec2::operator + (vec2 &param)

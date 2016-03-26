@@ -104,6 +104,30 @@ namespace jml
 		return (column0 != param.column0 && column1 != param.column1 && column2 != param.column2);
 	}
 
+	mat3 operator * (JFloat param, mat3 vec)
+	{
+		return param * vec;
+	}
+	mat3 operator / (JFloat param, mat3 vec)
+	{
+		return param / vec;
+	}
+	mat3 operator *= (JFloat param, mat3 vec)
+	{
+		return param *= vec;
+	}
+	mat3 operator /= (JFloat param, mat3 vec)
+	{
+		return param /= vec;
+	}
+	vec3 operator *(vec3 &param1, mat3 &param2)
+	{
+		return vec3(
+			param1.x * param2.column0.x + param1.x * param2.column0.y + param1.x * param2.column0.z,
+			param1.y * param2.column1.x + param1.y * param2.column1.y + param1.y * param2.column1.z,
+			param1.z * param2.column2.x + param1.z * param2.column2.y + param1.z * param2.column2.z);
+	}
+
 	JFloat mat3::GetDeterminant()
 	{
 		return column0.Dot(column1.Cross(column2));
