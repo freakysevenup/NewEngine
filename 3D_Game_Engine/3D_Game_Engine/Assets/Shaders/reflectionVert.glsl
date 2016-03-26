@@ -5,6 +5,8 @@ layout (location = 2) in vec2 textureCoord;
 
 out vec3 ReflectDir; // The direction of the reflected ray
 out vec3 RefractDir;
+out vec3 normalInterp;
+out vec3 vertPos;
 
 uniform bool DrawSkyBox; // Are we drawing the sky box?
 
@@ -19,6 +21,7 @@ uniform mat4 projection;
 void main()
 {
 	mat4 MVP = projection * view * model;
+	vertPos = position;
 
 	if( DrawSkyBox )
 	{
@@ -26,14 +29,18 @@ void main()
 	}
 	else
 	{
-	// Compute the reflected direction in world coords.
+		mat4 normalMat = transpose( inverse( view * model ) );
+		normalInterp = vec3(normalMat * vec4(normal, 0.0));
 
-	vec3 worldPos = vec3( model * vec4(position, 1.0));
-	vec3 worldNorm = vec3( model * view * vec4(normal, 0.0));
-	vec3 worldView = normalize( camPosition - worldPos );
-	ReflectDir = reflect(-worldView, worldNorm);
-	RefractDir = refract(-worldView, worldNorm, 0.44);
+		// Compute the reflected direction in world coords.
+
+		vec3 worldPos = vec3( model * vec4( position, 1.0 ) );
+		vec3 worldNorm = vec3( model * view * vec4(normal, 0.0 ) );
+		vec3 worldView = normalize( camPosition - worldPos );
+
+		ReflectDir = reflect( -worldView, worldNorm );
+		RefractDir = refract( -worldView, worldNorm, 0.44 );
 
 	}
-	gl_Position = MVP * vec4(position, 1.0);
+	gl_Position = MVP * vec4( position, 1.0 );
 }

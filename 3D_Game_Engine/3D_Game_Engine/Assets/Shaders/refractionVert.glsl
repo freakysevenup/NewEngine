@@ -3,13 +3,13 @@
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec3 normal;
 
-out vec3 ReflectDir; // Reflected direction
-out vec3 RefractDir; // Transmitted direction
+out vec3 ReflectDir;					// Reflected direction
+out vec3 RefractDir;					// Transmitted direction
 
 struct MaterialInfo 
 {
-	float Eta; // Ratio of indices of refraction
-	float ReflectionFactor; // Percentage of reflected light
+	float Eta;							// Ratio of indices of refraction
+	float ReflectionFactor;				// Percentage of reflected light
 };
 
 uniform MaterialInfo Material;

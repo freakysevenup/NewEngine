@@ -3,11 +3,11 @@
 #include <vector>
 #include <iostream>
 
-#define LEFT_ROTATION_PANE m_input.getMouseCoords().x < 700
-#define RIGHT_ROTATION_PANE m_input.getMouseCoords().x > m_width - 700
+#define LEFT_ROTATION_PANE m_input.getMouseCoords().x < (0.0f + m_width / 4.0f)
+#define RIGHT_ROTATION_PANE m_input.getMouseCoords().x > (m_width - m_width / 4.0f)
 
-#define TOP_ROTATION_PANE m_input.getMouseCoords().y < 200
-#define BOTTOM_ROTATION_PANE m_input.getMouseCoords().y > m_height - 200
+#define TOP_ROTATION_PANE m_input.getMouseCoords().y < (0 + m_height / 4.0f)
+#define BOTTOM_ROTATION_PANE m_input.getMouseCoords().y > (m_height - m_height / 4.0f)
 
 void MainGame::run()
 {
@@ -21,8 +21,8 @@ void MainGame::run()
 void MainGame::init()
 {
 	//// MODEL:
-	m_model.LoadMesh("./Assets/Models/HumanFighter_Final.obj", "");
-	m_model2.LoadMesh("./Assets/Models/HumanFighter_Final.obj", "");
+	m_model.LoadMesh("./Assets/Models/HumanFighter_Final.obj", "./Assets/Models/");
+	m_model2.LoadMesh("./Assets/Models/HumanFighter_Final.obj", "./Assets/Models/");
 
 	// TEXTURE:
 	Texture texture("./Assets/SkyBoxes/dice_block/left.jpg");
@@ -30,13 +30,16 @@ void MainGame::init()
 	Texture bulbTexture("./Assets/Textures/aluminium-texture-6102637.jpg");
 	m_bulbTex = bulbTexture;
 
+	Texture humanTex("./Assets/Textures/HumanShip.png");
+	m_humanShipTex = humanTex;
+
 	std::vector <std::string> cubeTextures;
-	cubeTextures.push_back("./Assets/SkyBoxes/day_sky/right.jpg");
-	cubeTextures.push_back("./Assets/SkyBoxes/day_sky/left.jpg");
-	cubeTextures.push_back("./Assets/SkyBoxes/day_sky/top.jpg");
-	cubeTextures.push_back("./Assets/SkyBoxes/day_sky/bottom.jpg");
-	cubeTextures.push_back("./Assets/SkyBoxes/day_sky/back.jpg");
-	cubeTextures.push_back("./Assets/SkyBoxes/day_sky/front.jpg");
+	cubeTextures.push_back("./Assets/SkyBoxes/CN_Tower/right.jpg");
+	cubeTextures.push_back("./Assets/SkyBoxes/CN_Tower/left.jpg");
+	cubeTextures.push_back("./Assets/SkyBoxes/CN_Tower/top.jpg");
+	cubeTextures.push_back("./Assets/SkyBoxes/CN_Tower/bottom.jpg");
+	cubeTextures.push_back("./Assets/SkyBoxes/CN_Tower/back.jpg");
+	cubeTextures.push_back("./Assets/SkyBoxes/CN_Tower/front.jpg");
 
 	Texture cubeTexture;
 	cubeTexture.createCubeMap(
@@ -78,6 +81,12 @@ void MainGame::init()
 
 	m_shape3.createShape(CUBOID, 30.0f, 2.0f);
 	Mesh cube3Mesh(m_shape3.getVertices(), m_shape3.getVertices().size());
+
+	m_shape4.createShape(CUBOID, 30.0f, 2.0f);
+	Mesh cube4Mesh(m_shape4.getVertices(), m_shape4.getVertices().size());
+
+	m_shape5.createShape(CUBOID, 30.0f, 0.0f);
+	Mesh cube5Mesh(m_shape5.getVertices(), m_shape5.getVertices().size());
 
 	m_lightBulb.createShape(SPHERE, 0.15f, 2.0f, 16);
 	Mesh bulbMesh(m_lightBulb.getVertices(), m_lightBulb.getVertices().size());
@@ -135,6 +144,23 @@ void MainGame::init()
 	refraction.linkShaders();
 
 	setRefractionShaderProgram(refraction);
+
+	// Create Toon/Cel Shader
+
+	ShaderNova toonCel;
+
+	std::vector<std::string> toonCelShaderFiles;
+	toonCelShaderFiles.push_back("./Assets/Shaders/celShaderVert.glsl");
+	toonCelShaderFiles.push_back("./Assets/Shaders/celShaderFrag.glsl");
+
+	toonCel.compileShadersFromFile(toonCelShaderFiles);
+
+	toonCel.addAttributes("position");
+	toonCel.addAttributes("textureCoords");
+	toonCel.addAttributes("normal");
+	toonCel.linkShaders();
+
+	setToonCelShaderProgram(toonCel);
 
 	// CAMERA INIT:
 	m_cam.setPosition(glm::vec3(0.0f, -3.0f, 10.0f));
@@ -281,51 +307,12 @@ void MainGame::processInput()
 
 void MainGame::draw()
 {
-	///////////////////////////////////
-	//REFLECTION SHADER
-
-	m_reflectionShader.startUse();
-
-	GLint REFLECTIONView = m_reflectionShader.getUniformLocation("view");
-	glm::mat4 REFLECTIONViewMat = m_cam.view();
-	glUniformMatrix4fv(REFLECTIONView, 1, GL_FALSE, &REFLECTIONViewMat[0][0]);
-
-	GLint REFLECTIONProjection = m_reflectionShader.getUniformLocation("projection");
-	glm::mat4 REFLECTIONProjectionMat = m_cam.projection();
-	glUniformMatrix4fv(REFLECTIONProjection, 1, GL_FALSE, &REFLECTIONProjectionMat[0][0]);
-
-	GLint REFLECTIONModel = m_reflectionShader.getUniformLocation("model");
-	glm::mat4 REFLECTIONModelMatrix = m_model.getModel();
-	glUniformMatrix4fv(REFLECTIONModel, 1, GL_FALSE, &REFLECTIONModelMatrix[0][0]);
-
-	GLint REFLECTIONCamPos = m_reflectionShader.getUniformLocation("camPosition");
-	glm::vec3 REFLECTIONCamVec = m_cam.position();
-	glUniform3fv(REFLECTIONCamPos, 1, &REFLECTIONCamVec[0]);
-
-	GLint REFLECTIONDrawSkyBox = m_reflectionShader.getUniformLocation("DrawSkyBox");
-	bool REFLECTIONisSkyBox = false;
-	glUniform1i(REFLECTIONDrawSkyBox, REFLECTIONisSkyBox);
-
-	GLint REFLECTIONReflectFactor = m_reflectionShader.getUniformLocation("ReflectFactor");
-	float REFLECTIONReflectAmount = 1.0f;
-	glUniform1f(REFLECTIONReflectFactor, REFLECTIONReflectAmount);
-
-	m_skyBoxTex.bindCube(0);
-
-	m_model.setPosition(glm::vec3(-90.0f, 10.0f, 110.0f));
-	m_model.setRotation(glm::vec3(0.0f));
-	m_model.setScale(glm::vec3(1.0f));
-
-	//m_shape.draw();
-	m_model.Render();
-
-	m_reflectionShader.stopUse();
 
 	////////////////////////////////////////////////////////////////////
 	//REFRACTION SHADER
 
-	m_material.Eta = 0.8f;
-	m_material.ReflectionFactor = 0.1f;
+	m_material.Eta = 0.1f;
+	m_material.ReflectionFactor = 1.0f;
 
 	m_refractionShader.startUse();
 
@@ -368,12 +355,70 @@ void MainGame::draw()
 
 	m_refractionShader.stopUse();
 
+	////////////////////////////////////////////////////////////////////
+	//TOON/CEL SHADER
+
+	//m_light.position = glm::vec3(
+	//	cosf(m_counter * 1000),
+	//	sinf(m_counter * 400),
+	//	cosf(m_counter * 1000) + 5.0f);
+	//m_light.intensity = glm::vec3(1.0f);
+
+	//m_celShader.startUse();
+
+	//m_shape4.setPosition(glm::vec3(30.0f, 10.0f, -40.0f));
+	//m_shape4.setRotation(glm::vec3(sinf(m_counter)));
+	//m_shape4.setScale(glm::vec3(1.0f));
+
+	//GLint TOONViewUniform = m_celShader.getUniformLocation("view");
+	//glm::mat4 TOONViewMMatrix = m_cam.matrix();
+	//glUniformMatrix4fv(TOONViewUniform, 1, GL_FALSE, &TOONViewMMatrix[0][0]);
+
+	//GLint TOONProjectionUniform = m_celShader.getUniformLocation("projection");
+	//glm::mat4 TOONProjectionMMatrix = m_cam.matrix();
+	//glUniformMatrix4fv(TOONProjectionUniform, 1, GL_FALSE, &TOONProjectionMMatrix[0][0]);
+
+	//GLint TOONmodelMUniform = m_celShader.getUniformLocation("model");
+	//glm::mat4 TOONmodelMMatrix = m_shape4.getModel();
+	//glUniformMatrix4fv(TOONmodelMUniform, 1, GL_FALSE, &TOONmodelMMatrix[0][0]);
+
+	//GLint TOONCamPos = m_celShader.getUniformLocation("camPosition");
+	//glm::vec3 TOONCamVec = glm::vec3(0.0f, 0.0f, 0.0f);// m_cam.position();
+	//glUniform3fv(TOONCamPos, 1, &TOONCamVec[0]);
+
+	//GLint TOONlightPosUniform = m_celShader.getUniformLocation("lightPos");
+	//glm::vec3 TOONlightPosition = m_light.position;
+	//glUniform3fv(TOONlightPosUniform, 1, &TOONlightPosition[0]);
+
+	//GLint TOONlightIntensityUniform = m_celShader.getUniformLocation("shininess");
+	//float TOONshininess = 20.0f;
+	//glUniform1i(TOONlightIntensityUniform, TOONshininess);
+
+	//GLint TOONDiffuseUniform = m_celShader.getUniformLocation("material_diffuse");
+	//glm::vec4 TOONDiffuseVec = glm::vec4(0.8, 0.0, 0.0, 1.0);
+	//glUniform3fv(TOONDiffuseUniform, 1, &TOONDiffuseVec[0]);
+
+	//GLint TOONSpecularUniform = m_celShader.getUniformLocation("material_specular");
+	//glm::vec4 TOONSpecularVec = glm::vec4(1.0, 0.0, 0.0, 1.0);
+	//glUniform3fv(TOONSpecularUniform, 1, &TOONSpecularVec[0]);
+
+	//GLint TOONAmbientUniform = m_celShader.getUniformLocation("material_ambient");
+	//glm::vec4 TOONAmbientVec = glm::vec4(0.8, 0.8, 0.8, 1.0);
+	//glUniform3fv(TOONAmbientUniform, 1, &TOONAmbientVec[0]);
+
+	//m_bulbTex.bind2D(0);
+
+	//m_shape4.draw();
+	////m_model3.Render();
+
+	//m_celShader.stopUse();
+
 	//////////////////////////////////////////////////////////////////////
 	// BLINN_PHONG
 
 	m_shader.startUse();
 
-	m_shape2.setPosition(glm::vec3(30.0f, 10.0f, -40.0f));
+	m_shape2.setPosition(glm::vec3(100.0f, 10.f, -100.0f));
 	m_shape2.setRotation(glm::vec3(sinf(m_counter)));
 	m_shape2.setScale(glm::vec3(20.0f));
 
@@ -392,9 +437,7 @@ void MainGame::draw()
 	GLint BLINN_PHONGlightMUniform = m_shader.getUniformLocation("lightPos");
 
 	glm::vec3 BLINN_PHONGlightPosition = glm::vec3(
-		cosf(m_counter * 1000),
-		sinf(m_counter * 400),
-		cosf(m_counter * 1000) + 5.0f);
+		-100.0f, 100.0f + sinf(m_counter * 100) * 100.0f, 0.0f);
 
 	glUniform3fv(BLINN_PHONGlightMUniform, 1, &BLINN_PHONGlightPosition[0]);
 
@@ -405,6 +448,47 @@ void MainGame::draw()
 
 	m_shader.stopUse();
 
+	//////////////////////////////////////////////////////////////////////
+	// DICE_BLOCK
+
+	m_reflectionShader.startUse();
+
+	GLint DICE_BLOCKview = m_reflectionShader.getUniformLocation("view");
+	glm::mat4 DICE_BLOCKviewMat = m_cam.view();
+	glUniformMatrix4fv(DICE_BLOCKview, 1, GL_FALSE, &DICE_BLOCKviewMat[0][0]);
+
+	GLint DICE_BLOCKprojection = m_reflectionShader.getUniformLocation("projection");
+	glm::mat4 DICE_BLOCKprojectionMat = m_cam.projection();
+	glUniformMatrix4fv(DICE_BLOCKprojection, 1, GL_FALSE, &DICE_BLOCKprojectionMat[0][0]);
+
+	GLint DICE_BLOCKmodelUniform = m_reflectionShader.getUniformLocation("model");
+	glm::mat4 DICE_BLOCKmodelMatrix = m_shape5.getModel();
+	glUniformMatrix4fv(DICE_BLOCKmodelUniform, 1, GL_FALSE, &DICE_BLOCKmodelMatrix[0][0]);
+
+	GLint DICE_BLOCKcamPos = m_reflectionShader.getUniformLocation("camPosition");
+	glm::vec3 DICE_BLOCKcamPosition = m_cam.position();
+	glUniform3fv(DICE_BLOCKcamPos, 1, &DICE_BLOCKcamPosition[0]);
+
+	GLint DICE_BLOCKdrawDICE_BLOCK = m_reflectionShader.getUniformLocation("DrawSkyBox");
+	bool DICE_BLOCKisDICE_BLOCK = true;
+	glUniform1i(DICE_BLOCKdrawDICE_BLOCK, DICE_BLOCKisDICE_BLOCK);
+
+	GLint DICE_BLOCKreflectFactor = m_reflectionShader.getUniformLocation("ReflectFactor");
+	float DICE_BLOCKreflectAmount = 0.1f;
+	glUniform1f(DICE_BLOCKreflectFactor, DICE_BLOCKreflectAmount);
+
+	GLint DICE_BLOCKlightMUniform = m_reflectionShader.getUniformLocation("lightPos");
+	glUniform3fv(DICE_BLOCKlightMUniform, 1, &BLINN_PHONGlightPosition[0]);
+
+	m_diceBlockTex.bindCube(0);
+
+	m_shape5.setPosition(glm::vec3(-100.0f, 10.0f, -100.0f));
+	m_shape5.setRotation(glm::vec3(cosf(m_counter) * 200.0f, sinf(m_counter) * 200.0f, cosf(m_counter) * 200.0f));
+	m_shape5.setScale(glm::vec3(1.0f));
+
+	m_shape5.draw();
+
+	m_reflectionShader.stopUse();
 
 	///////////////////////////////////
 	//SKYBOX - REFLECTION
@@ -435,6 +519,9 @@ void MainGame::draw()
 	float SKYBOXreflectAmount = 0.1f;
 	glUniform1f(SKYBOXreflectFactor, SKYBOXreflectAmount);
 
+	GLint SKYBOXlightMUniform = m_reflectionShader.getUniformLocation("lightPos");
+	glUniform3fv(SKYBOXlightMUniform, 1, &BLINN_PHONGlightPosition[0]);
+
 	m_skyBoxTex.bindCube(0);
 
 	m_skyBox.setPosition(m_cam.position());
@@ -444,6 +531,51 @@ void MainGame::draw()
 	m_skyBox.draw();
 
 	m_reflectionShader.stopUse();
+
+	///////////////////////////////////
+	//REFLECTION SHADER
+
+	m_reflectionShader.startUse();
+
+	GLint REFLECTIONView = m_reflectionShader.getUniformLocation("view");
+	glm::mat4 REFLECTIONViewMat = m_cam.view();
+	glUniformMatrix4fv(REFLECTIONView, 1, GL_FALSE, &REFLECTIONViewMat[0][0]);
+
+	GLint REFLECTIONProjection = m_reflectionShader.getUniformLocation("projection");
+	glm::mat4 REFLECTIONProjectionMat = m_cam.projection();
+	glUniformMatrix4fv(REFLECTIONProjection, 1, GL_FALSE, &REFLECTIONProjectionMat[0][0]);
+
+	GLint REFLECTIONModel = m_reflectionShader.getUniformLocation("model");
+	glm::mat4 REFLECTIONModelMatrix = m_model.getModel();
+	glUniformMatrix4fv(REFLECTIONModel, 1, GL_FALSE, &REFLECTIONModelMatrix[0][0]);
+
+	GLint REFLECTIONCamPos = m_reflectionShader.getUniformLocation("camPosition");
+	glm::vec3 REFLECTIONCamVec = m_cam.position();
+	glUniform3fv(REFLECTIONCamPos, 1, &REFLECTIONCamVec[0]);
+
+	GLint REFLECTIONDrawSkyBox = m_reflectionShader.getUniformLocation("DrawSkyBox");
+	bool REFLECTIONisSkyBox = false;
+	glUniform1i(REFLECTIONDrawSkyBox, REFLECTIONisSkyBox);
+
+	GLint REFLECTIONReflectFactor = m_reflectionShader.getUniformLocation("ReflectFactor");
+	float REFLECTIONReflectAmount = 1.0f;
+	glUniform1f(REFLECTIONReflectFactor, REFLECTIONReflectAmount);
+
+	GLint REFLECTIONlightMUniform = m_reflectionShader.getUniformLocation("lightPos");
+	glUniform3fv(REFLECTIONlightMUniform, 1, &BLINN_PHONGlightPosition[0]);
+
+	m_humanShipTex.bind2D(0);
+	m_skyBoxTex.bindCube(0);
+
+	m_model.setPosition(glm::vec3(-90.0f, 10.0f, 110.0f));
+	m_model.setRotation(glm::vec3(0.0f));
+	m_model.setScale(glm::vec3(1.0f));
+
+	//m_shape.draw();
+	m_model.Render();
+
+	m_reflectionShader.stopUse();
+
 
 	//////////////////////////////////////////////////////////////////////
 	//BLINN_PHONG - LightBulb
@@ -466,9 +598,9 @@ void MainGame::draw()
 
 	m_bulbTex.bind2D(0);
 
-	m_lightBulb.setPosition(BLINN_PHONGlightPosition - 1.0f);
+	m_lightBulb.setPosition(BLINN_PHONGlightPosition);
 	m_lightBulb.setRotation(glm::vec3(0.0f));
-	m_lightBulb.setScale(glm::vec3(1.0f));
+	m_lightBulb.setScale(glm::vec3(10.0f));
 
 	m_lightBulb.draw();
 

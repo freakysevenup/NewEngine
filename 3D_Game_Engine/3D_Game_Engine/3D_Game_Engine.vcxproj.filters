@@ -85,92 +85,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Shaders\basicShaderFrag.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\basicShaderVert.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\glowShaderFrag.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\glowShaderVert.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\pointLightFrag.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\pointLightVert.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\spotLightFrag.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\spotLightVert.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\cubeShaderFragment.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\cubeShaderVertex.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\multiplePointLightFragment.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\multiplePointLightVertex.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\cubeShaderFragment - Copy.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\cubeShaderVertex - Copy.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\example_only_reflection.frag.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\example_only_reflection.vs.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\dualConeSpotLightFrag.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\dualConeSpotLightVertex.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\blinnPhongFrag.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\blinnPhongVert.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\skyboxFragment.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\skyboxVertex.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\reflectionFrag.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\reflectionVert.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\refFrag.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\refVert.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\refractionFrag.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Shaders\refractionVert.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="MainGame.h">
       <Filter>Main Game</Filter>
     </ClInclude>
@@ -243,5 +157,43 @@
     <ClInclude Include="JML\Math\Jade_Primitives.h">
       <Filter>JML\Math</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Shaders\basicShaderFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\basicShaderVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\blinnPhongFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\blinnPhongVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\celShaderFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\celShaderVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\glowShaderFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\glowShaderVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\reflectionFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\reflectionVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\refractionFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Shaders\refractionVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
