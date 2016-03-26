@@ -195,7 +195,7 @@ GLint ShaderNova::getUniformLocation(const std::string & uniformName)
 {
 	GLint location = glGetUniformLocation(m_program, uniformName.c_str());
 	if (location == GL_INVALID_INDEX)
-		std::cout << "location = GL_INVALID_INDEX  " + uniformName << std::endl;
+		std::cout << "location = GL_INVALID_INDEX = "<< location << " \nUniformName : " << uniformName << std::endl;
 		//exit(0);
 	return location;
 }

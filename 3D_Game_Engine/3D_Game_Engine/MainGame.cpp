@@ -21,7 +21,8 @@ void MainGame::run()
 void MainGame::init()
 {
 	//// MODEL:
-	m_model.LoadMesh("./Assets/Models/sphere.obj", "");
+	m_model.LoadMesh("./Assets/Models/HumanFighter_Final.obj", "");
+	m_model2.LoadMesh("./Assets/Models/HumanFighter_Final.obj", "");
 
 	// TEXTURE:
 	Texture texture("./Assets/SkyBoxes/dice_block/left.jpg");
@@ -30,12 +31,12 @@ void MainGame::init()
 	m_bulbTex = bulbTexture;
 
 	std::vector <std::string> cubeTextures;
-	cubeTextures.push_back("./Assets/SkyBoxes/CN_Tower/right.jpg");
-	cubeTextures.push_back("./Assets/SkyBoxes/CN_Tower/left.jpg");
-	cubeTextures.push_back("./Assets/SkyBoxes/CN_Tower/top.jpg");
-	cubeTextures.push_back("./Assets/SkyBoxes/CN_Tower/bottom.jpg");
-	cubeTextures.push_back("./Assets/SkyBoxes/CN_Tower/back.jpg");
-	cubeTextures.push_back("./Assets/SkyBoxes/CN_Tower/front.jpg");
+	cubeTextures.push_back("./Assets/SkyBoxes/day_sky/right.jpg");
+	cubeTextures.push_back("./Assets/SkyBoxes/day_sky/left.jpg");
+	cubeTextures.push_back("./Assets/SkyBoxes/day_sky/top.jpg");
+	cubeTextures.push_back("./Assets/SkyBoxes/day_sky/bottom.jpg");
+	cubeTextures.push_back("./Assets/SkyBoxes/day_sky/back.jpg");
+	cubeTextures.push_back("./Assets/SkyBoxes/day_sky/front.jpg");
 
 	Texture cubeTexture;
 	cubeTexture.createCubeMap(
@@ -69,13 +70,13 @@ void MainGame::init()
 	m_diceBlockTex = diceCubeTexture;
 
 	// SHAPE:
-	m_shape.createShape(CUBOID, 20.0f, 0.0f);
+	m_shape.createShape(CUBOID, 30.0f, 0.0f);
 	Mesh cubeMesh(m_shape.getVertices(), m_shape.getVertices().size());
 
 	m_shape2.createShape(CUBOID);
 	Mesh cube2Mesh(m_shape2.getVertices(), m_shape2.getVertices().size());
 
-	m_shape3.createShape(CUBOID);
+	m_shape3.createShape(CUBOID, 30.0f, 2.0f);
 	Mesh cube3Mesh(m_shape3.getVertices(), m_shape3.getVertices().size());
 
 	m_lightBulb.createShape(SPHERE, 0.15f, 2.0f, 16);
@@ -129,26 +130,11 @@ void MainGame::init()
 	refraction.compileShadersFromFile(refractionShaderFiles);
 
 	refraction.addAttributes("position");
+	refraction.addAttributes("textureCoords");
 	refraction.addAttributes("normal");
 	refraction.linkShaders();
 
 	setRefractionShaderProgram(refraction);
-
-	// Create Reference Shader (Testing Purposes)
-
-	ShaderNova ref;
-
-	std::vector<std::string> refShaderFiles;
-	refShaderFiles.push_back("./Assets/Shaders/refVert.glsl");
-	refShaderFiles.push_back("./Assets/Shaders/refFrag.glsl");
-
-	ref.compileShadersFromFile(refShaderFiles);
-
-	ref.addAttributes("position");
-	ref.addAttributes("normal");
-	ref.linkShaders();
-
-	setRefractionShaderProgram(ref);
 
 	// CAMERA INIT:
 	m_cam.setPosition(glm::vec3(0.0f, -3.0f, 10.0f));
@@ -295,7 +281,95 @@ void MainGame::processInput()
 
 void MainGame::draw()
 {
+	///////////////////////////////////
+	//REFLECTION SHADER
+
+	m_reflectionShader.startUse();
+
+	GLint REFLECTIONView = m_reflectionShader.getUniformLocation("view");
+	glm::mat4 REFLECTIONViewMat = m_cam.view();
+	glUniformMatrix4fv(REFLECTIONView, 1, GL_FALSE, &REFLECTIONViewMat[0][0]);
+
+	GLint REFLECTIONProjection = m_reflectionShader.getUniformLocation("projection");
+	glm::mat4 REFLECTIONProjectionMat = m_cam.projection();
+	glUniformMatrix4fv(REFLECTIONProjection, 1, GL_FALSE, &REFLECTIONProjectionMat[0][0]);
+
+	GLint REFLECTIONModel = m_reflectionShader.getUniformLocation("model");
+	glm::mat4 REFLECTIONModelMatrix = m_model.getModel();
+	glUniformMatrix4fv(REFLECTIONModel, 1, GL_FALSE, &REFLECTIONModelMatrix[0][0]);
+
+	GLint REFLECTIONCamPos = m_reflectionShader.getUniformLocation("camPosition");
+	glm::vec3 REFLECTIONCamVec = m_cam.position();
+	glUniform3fv(REFLECTIONCamPos, 1, &REFLECTIONCamVec[0]);
+
+	GLint REFLECTIONDrawSkyBox = m_reflectionShader.getUniformLocation("DrawSkyBox");
+	bool REFLECTIONisSkyBox = false;
+	glUniform1i(REFLECTIONDrawSkyBox, REFLECTIONisSkyBox);
+
+	GLint REFLECTIONReflectFactor = m_reflectionShader.getUniformLocation("ReflectFactor");
+	float REFLECTIONReflectAmount = 1.0f;
+	glUniform1f(REFLECTIONReflectFactor, REFLECTIONReflectAmount);
+
+	m_skyBoxTex.bindCube(0);
+
+	m_model.setPosition(glm::vec3(-90.0f, 10.0f, 110.0f));
+	m_model.setRotation(glm::vec3(0.0f));
+	m_model.setScale(glm::vec3(1.0f));
+
+	//m_shape.draw();
+	m_model.Render();
+
+	m_reflectionShader.stopUse();
+
+	////////////////////////////////////////////////////////////////////
+	//REFRACTION SHADER
+
+	m_material.Eta = 0.8f;
+	m_material.ReflectionFactor = 0.1f;
+
+	m_refractionShader.startUse();
+
+	GLint REFRACTIONView = m_refractionShader.getUniformLocation("view");
+	glm::mat4 REFRACTIONViewMat = m_cam.view();
+	glUniformMatrix4fv(REFRACTIONView, 1, GL_FALSE, &REFRACTIONViewMat[0][0]);
+
+	GLint REFRACTIONProjection = m_refractionShader.getUniformLocation("projection");
+	glm::mat4 REFRACTIONProjectionMat = m_cam.projection();
+	glUniformMatrix4fv(REFRACTIONProjection, 1, GL_FALSE, &REFRACTIONProjectionMat[0][0]);
+
+	GLint REFRACTIONModel = m_refractionShader.getUniformLocation("model");
+	glm::mat4 REFRACTIONModelMatrix = m_model2.getModel();
+	glUniformMatrix4fv(REFRACTIONModel, 1, GL_FALSE, &REFRACTIONModelMatrix[0][0]);
+
+	GLint REFRACTIONCamPos = m_refractionShader.getUniformLocation("camPosition");
+	glm::vec3 REFRACTIONCamVec = m_cam.position();
+	glUniform3fv(REFRACTIONCamPos, 1, &REFRACTIONCamVec[0]);
+
+	GLint REFRACTIONDrawSkyBox = m_refractionShader.getUniformLocation("DrawSkyBox");
+	bool REFRACTIONisSkyBox = false;
+	glUniform1i(REFRACTIONDrawSkyBox, REFRACTIONisSkyBox);
+
+	GLint REFRACTIONMaterialEta = m_refractionShader.getUniformLocation("Material.Eta");
+	float REFRACTIONMaterialEtaFactor = m_material.Eta;
+	glUniform1f(REFRACTIONMaterialEta, REFRACTIONMaterialEtaFactor);
+
+	GLint REFRACTIONMaterialReflectFactor = m_refractionShader.getUniformLocation("Material.ReflectionFactor");
+	float REFRACTIONMaterialReflectAmount = m_material.ReflectionFactor;
+	glUniform1f(REFRACTIONMaterialReflectFactor, REFRACTIONMaterialReflectAmount);
+
+	m_skyBoxTex.bindCube(0);
+
+	m_model2.setPosition(glm::vec3(90.0f, 10.0f, 110.0f));
+	m_model2.setRotation(glm::vec3(0.0f));
+	m_model2.setScale(glm::vec3(1.0f));
+
+	//m_shape3.draw();
+	m_model2.Render();
+
+	m_refractionShader.stopUse();
+
 	//////////////////////////////////////////////////////////////////////
+	// BLINN_PHONG
 
 	m_shader.startUse();
 
@@ -303,65 +377,63 @@ void MainGame::draw()
 	m_shape2.setRotation(glm::vec3(sinf(m_counter)));
 	m_shape2.setScale(glm::vec3(20.0f));
 
-	GLint camMUniform = m_shader.getUniformLocation("camera");
-	glm::mat4 cameraMMatrix = m_cam.matrix();
-	glUniformMatrix4fv(camMUniform, 1, GL_FALSE, &cameraMMatrix[0][0]);
+	GLint BLINN_PHONGcamMUniform = m_shader.getUniformLocation("camera");
+	glm::mat4 BLINN_PHONGcameraMMatrix = m_cam.matrix();
+	glUniformMatrix4fv(BLINN_PHONGcamMUniform, 1, GL_FALSE, &BLINN_PHONGcameraMMatrix[0][0]);
 
-	GLint modelMUniform = m_shader.getUniformLocation("model");
-	glm::mat4 modelMMatrix = m_shape2.getModel();
-	glUniformMatrix4fv(modelMUniform, 1, GL_FALSE, &modelMMatrix[0][0]);
+	GLint BLINN_PHONGmodelMUniform = m_shader.getUniformLocation("model");
+	glm::mat4 BLINN_PHONGmodelMMatrix = m_shape2.getModel();
+	glUniformMatrix4fv(BLINN_PHONGmodelMUniform, 1, GL_FALSE, &BLINN_PHONGmodelMMatrix[0][0]);
 
-	GLint normalMUniform = m_shader.getUniformLocation("normalMat");
-	glm::mat4 normalMMatrix = m_shape2.getNormalMatrix();
-	glUniformMatrix4fv(normalMUniform, 1, GL_FALSE, &normalMMatrix[0][0]);
+	GLint BLINN_PHONGnormalMUniform = m_shader.getUniformLocation("normalMat");
+	glm::mat4 BLINN_PHONGnormalMMatrix = m_shape2.getNormalMatrix();
+	glUniformMatrix4fv(BLINN_PHONGnormalMUniform, 1, GL_FALSE, &BLINN_PHONGnormalMMatrix[0][0]);
 
-	GLint lightMUniform = m_shader.getUniformLocation("lightPos");
+	GLint BLINN_PHONGlightMUniform = m_shader.getUniformLocation("lightPos");
 
-	glm::vec3 lightPosition = glm::vec3(
+	glm::vec3 BLINN_PHONGlightPosition = glm::vec3(
 		cosf(m_counter * 1000),
 		sinf(m_counter * 400),
 		cosf(m_counter * 1000) + 5.0f);
 
-	glUniform3fv(lightMUniform, 1, &lightPosition[0]);
+	glUniform3fv(BLINN_PHONGlightMUniform, 1, &BLINN_PHONGlightPosition[0]);
 
 	m_shapeTexture.bind2D(0);
 
 	m_shape2.draw();
+	//m_model.Render();
 
 	m_shader.stopUse();
 
 
 	///////////////////////////////////
+	//SKYBOX - REFLECTION
 
 	m_reflectionShader.startUse();
 
-	GLint viewSkyBox = m_reflectionShader.getUniformLocation("view");
-	glm::mat4 viewMatSkyBox = m_cam.view();
-	glUniformMatrix4fv(viewSkyBox, 1, GL_FALSE, &viewMatSkyBox[0][0]);
+	GLint SKYBOXview = m_reflectionShader.getUniformLocation("view");
+	glm::mat4 SKYBOXviewMat = m_cam.view();
+	glUniformMatrix4fv(SKYBOXview, 1, GL_FALSE, &SKYBOXviewMat[0][0]);
 
-	GLint projectionSkyBox = m_reflectionShader.getUniformLocation("projection");
-	glm::mat4 projectionMatSkyBox = m_cam.projection();
-	glUniformMatrix4fv(projectionSkyBox, 1, GL_FALSE, &projectionMatSkyBox[0][0]);
+	GLint SKYBOXprojection = m_reflectionShader.getUniformLocation("projection");
+	glm::mat4 SKYBOXprojectionMat = m_cam.projection();
+	glUniformMatrix4fv(SKYBOXprojection, 1, GL_FALSE, &SKYBOXprojectionMat[0][0]);
 
-	GLint modelUniformSkyBox = m_reflectionShader.getUniformLocation("model");
-	glm::mat4 modelMatrixSkyBox = m_skyBox.getModel();
-	glUniformMatrix4fv(modelUniformSkyBox, 1, GL_FALSE, &modelMatrixSkyBox[0][0]);
+	GLint SKYBOXmodelUniform = m_reflectionShader.getUniformLocation("model");
+	glm::mat4 SKYBOXmodelMatrix = m_skyBox.getModel();
+	glUniformMatrix4fv(SKYBOXmodelUniform, 1, GL_FALSE, &SKYBOXmodelMatrix[0][0]);
 
-	GLint camPosSkyBox = m_reflectionShader.getUniformLocation("camPosition");
-	glm::vec3 camPositionSkyBox = m_cam.position();
-	glUniform3fv(camPosSkyBox, 1, &camPositionSkyBox[0]);
+	GLint SKYBOXcamPos = m_reflectionShader.getUniformLocation("camPosition");
+	glm::vec3 SKYBOXcamPosition = m_cam.position();
+	glUniform3fv(SKYBOXcamPos, 1, &SKYBOXcamPosition[0]);
 
-	GLint tintColourSkyBox = m_reflectionShader.getUniformLocation("MaterialColor");
-	glm::vec4 tintColourVecSkyBox = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
-	glUniformMatrix4fv(tintColourSkyBox, 1, GL_FALSE, &tintColourVecSkyBox[0]);
+	GLint SKYBOXdrawSkyBox = m_reflectionShader.getUniformLocation("DrawSkyBox");
+	bool SKYBOXisSkyBox = true;
+	glUniform1i(SKYBOXdrawSkyBox, SKYBOXisSkyBox);
 
-	GLint drawSkyBoxA = m_reflectionShader.getUniformLocation("DrawSkyBox");
-	bool isSkyBoxA = true;
-	glUniform1i(drawSkyBoxA, isSkyBoxA);
-
-	GLint reflectFactorSkyBox = m_reflectionShader.getUniformLocation("ReflectFactor");
-	float reflectAmountSkyBox = 1.0f;
-	glUniform1f(reflectFactorSkyBox, reflectAmountSkyBox);
+	GLint SKYBOXreflectFactor = m_reflectionShader.getUniformLocation("ReflectFactor");
+	float SKYBOXreflectAmount = 0.1f;
+	glUniform1f(SKYBOXreflectFactor, SKYBOXreflectAmount);
 
 	m_skyBoxTex.bindCube(0);
 
@@ -373,118 +445,28 @@ void MainGame::draw()
 
 	m_reflectionShader.stopUse();
 
-	////////////////////////////////////////////////////////////////////
-	//REFRACTION SHADER
-
-	m_refractionShader.startUse();
-
-	GLint view1 = m_refractionShader.getUniformLocation("view");
-	glm::mat4 view1Mat = m_cam.view();
-	glUniformMatrix4fv(view1, 1, GL_FALSE, &view1Mat[0][0]);
-
-	GLint projection1 = m_refractionShader.getUniformLocation("projection");
-	glm::mat4 projection1Mat = m_cam.projection();
-	glUniformMatrix4fv(projection1, 1, GL_FALSE, &projection1Mat[0][0]);
-
-	GLint modelUniform1 = m_refractionShader.getUniformLocation("model");
-	glm::mat4 modelMatrix1 = m_shape3.getModel();
-	glUniformMatrix4fv(modelUniform1, 1, GL_FALSE, &modelMatrix1[0][0]);
-
-	GLint camPos1 = m_refractionShader.getUniformLocation("camPosition");
-	glm::vec3 camPosition1 = m_cam.position();
-	glUniform3fv(camPos1, 1, &camPosition1[0]);
-
-	//GLint reflectFactorRefraction = m_refractionShader.getUniformLocation("ReflectFactor");
-	//float reflectAmountRefraction = 1.0f;
-	//glUniform1f(reflectFactorRefraction, reflectAmountRefraction);
-
-	//GLint refractFactor = m_refractionShader.getUniformLocation("RefractFactor");
-	//float refractAmount = 1.0f;
-	//glUniform1f(refractFactor, refractAmount);
-
-	//GLint lightUniform = m_refractionShader.getUniformLocation("lightPos");
-	//glUniform3fv(lightUniform, 1, &lightPosition[0]);
-
-	//m_shapeTexture.bind2D(0);
-	m_skyBoxTex.bindCube(0);
-
-	m_shape3.setPosition(glm::vec3(70.0f, 10.0f, -90.0f));
-	m_shape3.setRotation(glm::vec3(0.0f));
-	m_shape3.setScale(glm::vec3(10.0f));
-
-	m_shape3.draw();
-
-	m_refractionShader.stopUse();
-
-
-	///////////////////////////////////
-	//REFLECTION SHADER
-
-	m_reflectionShader.startUse();
-
-	GLint view = m_reflectionShader.getUniformLocation("view");
-	glm::mat4 viewMat = m_cam.view();
-	glUniformMatrix4fv(view, 1, GL_FALSE, &viewMat[0][0]);
-
-	GLint projection = m_reflectionShader.getUniformLocation("projection");
-	glm::mat4 projectionMat = m_cam.projection();
-	glUniformMatrix4fv(projection, 1, GL_FALSE, &projectionMat[0][0]);
-
-	GLint modelUniform = m_reflectionShader.getUniformLocation("model");
-	glm::mat4 modelMatrix = m_shape.getModel();
-	glUniformMatrix4fv(modelUniform, 1, GL_FALSE, &modelMatrix[0][0]);
-
-	GLint camPos = m_reflectionShader.getUniformLocation("camPosition");
-	glm::vec3 camPosition = m_cam.position();// +m_cam.forward();
-	glUniform3fv(camPos, 1, &camPosition[0]);
-
-	GLint tintColour = m_reflectionShader.getUniformLocation("MaterialColor");
-	glm::vec4 tintColourVec = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
-	glUniformMatrix4fv(tintColour, 1, GL_FALSE, &tintColourVec[0]);
-
-	GLint drawSkyBox = m_reflectionShader.getUniformLocation("DrawSkyBox");
-	bool isSkyBox = false;
-	glUniform1i(drawSkyBox, isSkyBox);
-
-	GLint reflectFactor = m_reflectionShader.getUniformLocation("ReflectFactor");
-	float reflectAmount = 0.85f;
-	glUniform1f(reflectFactor, reflectAmount);
-
-	//GLint lightUniform = m_refractionShader.getUniformLocation("lightPos");
-	//glUniform3fv(lightUniform, 1, &lightPosition[0]);
-
-	m_skyBoxTex.bindCube(0);
-
-	m_shape.setPosition(glm::vec3(-70.0f, 10.0f, 90.0f));
-	m_shape.setRotation(glm::vec3(0.0f));
-	m_shape.setScale(glm::vec3(1.0f));
-
-	m_shape.draw();
-
-	m_reflectionShader.stopUse();
-
 	//////////////////////////////////////////////////////////////////////
-
+	//BLINN_PHONG - LightBulb
 	m_shader.startUse();
 
-	GLint camLUniform = m_shader.getUniformLocation("camera");
-	glm::mat4 cameraLMatrix = m_cam.matrix();
-	glUniformMatrix4fv(camLUniform, 1, GL_FALSE, &cameraLMatrix[0][0]);
+	GLint LightBulbcamLUniform = m_shader.getUniformLocation("camera");
+	glm::mat4 LightBulbcameraLMatrix = m_cam.matrix();
+	glUniformMatrix4fv(LightBulbcamLUniform, 1, GL_FALSE, &LightBulbcameraLMatrix[0][0]);
 
-	GLint modelLUniform = m_shader.getUniformLocation("model");
-	glm::mat4 modelLMatrix = m_lightBulb.getModel();
-	glUniformMatrix4fv(modelLUniform, 1, GL_FALSE, &modelLMatrix[0][0]);
+	GLint LightBulbmodelLUniform = m_shader.getUniformLocation("model");
+	glm::mat4 LightBulbmodelLMatrix = m_lightBulb.getModel();
+	glUniformMatrix4fv(LightBulbmodelLUniform, 1, GL_FALSE, &LightBulbmodelLMatrix[0][0]);
 
-	GLint normalLUniform = m_shader.getUniformLocation("normalMat");
-	glm::mat4 normalLMatrix = m_lightBulb.getNormalMatrix();
-	glUniformMatrix4fv(normalLUniform, 1, GL_FALSE, &normalLMatrix[0][0]);
+	GLint LightBulbnormalLUniform = m_shader.getUniformLocation("normalMat");
+	glm::mat4 LightBulbnormalLMatrix = m_lightBulb.getNormalMatrix();
+	glUniformMatrix4fv(LightBulbnormalLUniform, 1, GL_FALSE, &LightBulbnormalLMatrix[0][0]);
 
-	GLint lightLUniform = m_shader.getUniformLocation("lightPos");
-	glUniform3fv(lightLUniform, 1, &lightPosition[0]);
+	GLint LightBulblightLUniform = m_shader.getUniformLocation("lightPos");
+	glUniform3fv(LightBulblightLUniform, 1, &BLINN_PHONGlightPosition[0]);
 
 	m_bulbTex.bind2D(0);
 
-	m_lightBulb.setPosition(lightPosition - 1.0f);
+	m_lightBulb.setPosition(BLINN_PHONGlightPosition - 1.0f);
 	m_lightBulb.setRotation(glm::vec3(0.0f));
 	m_lightBulb.setScale(glm::vec3(1.0f));
 
