@@ -87,11 +87,13 @@
     <ClCompile Include="Core\Camera3D.cpp" />
     <ClCompile Include="Core\InputManager.cpp" />
     <ClCompile Include="Core\IOManager.cpp" />
+    <ClCompile Include="Core\Shader.cpp" />
     <ClCompile Include="Core\ViewPort.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Rendering\AssImpModelLoader.cpp" />
     <ClCompile Include="Rendering\Lighting.cpp" />
+    <ClCompile Include="Rendering\Material.cpp" />
     <ClCompile Include="Rendering\Mesh.cpp" />
     <ClCompile Include="Rendering\ShaderManager.cpp" />
     <ClCompile Include="Rendering\ShaderNova.cpp" />
@@ -103,10 +105,12 @@
     <ClInclude Include="Core\Camera3D.h" />
     <ClInclude Include="Core\InputManager.h" />
     <ClInclude Include="Core\IOManager.h" />
+    <ClInclude Include="Core\Shader.h" />
     <ClInclude Include="Core\ViewPort.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Rendering\AssImpModelLoader.h" />
     <ClInclude Include="Rendering\Lighting.h" />
+    <ClInclude Include="Rendering\Material.h" />
     <ClInclude Include="Rendering\Mesh.h" />
     <ClInclude Include="Rendering\ShaderManager.h" />
     <ClInclude Include="Rendering\ShaderNova.h" />
