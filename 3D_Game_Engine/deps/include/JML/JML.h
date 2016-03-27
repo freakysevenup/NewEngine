@@ -19,3 +19,5 @@
 #include "quat.h"
 #include "mat3.h"
 #include "mat4.h"
+
+using namespace jml;
