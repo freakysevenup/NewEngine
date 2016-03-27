@@ -81,6 +81,15 @@ namespace jml
 		vec4 operator / (JFloat  param);
 		vec4 operator /= (JFloat  param);
 
+		friend vec4 operator * (JFloat param, vec4 vec);
+		friend vec4 operator / (JFloat param, vec4 vec);
+		friend vec4 operator - (JFloat param, vec4 vec);
+		friend vec4 operator + (JFloat param, vec4 vec);
+		friend vec4 operator *= (JFloat param, vec4 vec);
+		friend vec4 operator /= (JFloat param, vec4 vec);
+		friend vec4 operator -= (JFloat param, vec4 vec);
+		friend vec4 operator += (JFloat param, vec4 vec);
+
 		/// <summary>
 		/// returns the Magnitude of this vec4
 		/// </summary>
@@ -153,39 +162,4 @@ namespace jml
 		JFloat w;
 	};
 
-	namespace
-	{
-		vec4 operator * (JFloat param, vec4 vec)
-		{
-			return param * vec;
-		}
-		vec4 operator / (JFloat param, vec4 vec)
-		{
-			return param / vec;
-		}
-		vec4 operator - (JFloat param, vec4 vec)
-		{
-			return param - vec;
-		}
-		vec4 operator + (JFloat param, vec4 vec)
-		{
-			return param + vec;
-		}
-		vec4 operator *= (JFloat param, vec4 vec)
-		{
-			return param *= vec;
-		}
-		vec4 operator /= (JFloat param, vec4 vec)
-		{
-			return param /= vec;
-		}
-		vec4 operator -= (JFloat param, vec4 vec)
-		{
-			return param -= vec;
-		}
-		vec4 operator += (JFloat param, vec4 vec)
-		{
-			return param += vec;
-		}
-	}
 }

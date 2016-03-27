@@ -12,7 +12,7 @@ uniform vec3 lightPos;
 
 const vec3 ambientColor = vec3(0.1, 0.1, 0.1); //Ambient Colour in the environment
 const vec3 diffuseColor = vec3(0.5, 0.5, 0.5);
-const vec3 specColor = vec3(1.0, 1.0, 1.0);
+const vec3 specColor = vec3(0.0, 0.5, 1.0);
 const float shininess = 4.0;
 const float screenGamma = 1.2; // Assume the monitor is calibrated to the sRGB color space
 

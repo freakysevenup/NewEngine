@@ -49,7 +49,7 @@ Texture::Texture(const std::string & fileName)
 	// unlike GL_LINEAR
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
 
@@ -93,7 +93,7 @@ bool Texture::loadModel()
 
 	// Specify more information about your texture if you wish to
 	// GL_TEXTURE_WRAP_T and GL_TEXTURE_WRAP_S are for 
-	// defineing what happens if you read outside the texture pixel width or height
+	// defining what happens if you read outside the texture pixel width or height
 	// In this case because GL_REPEAT is defined, it will go back to the beginning
 	// and start there. ie if the texture is 10 pixels wide and I'm looking for the 11th pixel
 	// it will return the pixel 1 instead
@@ -146,13 +146,13 @@ void Texture::bindModel(GLenum textureUnit)
 	glBindTexture(m_textureTarget, m_texture);
 }
 
-void Texture::createCubeMap(
-	const char * front,
-	const char * back,
+void Texture::createCubeMap(	
+	const char * right,
+	const char * left,
 	const char * top,
 	const char * bottom,
-	const char * left,
-	const char * right)
+	const char * back,
+	const char * front)
 {
 	// generate a cube-map texture to hold all the sides
 	glActiveTexture(GL_TEXTURE0);
@@ -160,17 +160,13 @@ void Texture::createCubeMap(
 
 	// load each image and copy into a side of the cube-map texture
 
+		load_cube_map_side(m_texture, GL_TEXTURE_CUBE_MAP_POSITIVE_X, right);
+		load_cube_map_side(m_texture, GL_TEXTURE_CUBE_MAP_NEGATIVE_X, left);
+		load_cube_map_side(m_texture, GL_TEXTURE_CUBE_MAP_POSITIVE_Y, top);
+		load_cube_map_side(m_texture, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, bottom);
 		load_cube_map_side(m_texture, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, back);
-
 		load_cube_map_side(m_texture, GL_TEXTURE_CUBE_MAP_POSITIVE_Z, front);
 
-		load_cube_map_side(m_texture, GL_TEXTURE_CUBE_MAP_POSITIVE_Y, top);
-
-		load_cube_map_side(m_texture, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, bottom);
-
-		load_cube_map_side(m_texture, GL_TEXTURE_CUBE_MAP_NEGATIVE_X, left);
-
-		load_cube_map_side(m_texture, GL_TEXTURE_CUBE_MAP_POSITIVE_X, right);
 	// format cube map texture
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
