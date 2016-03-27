@@ -20,7 +20,6 @@ public:
 	~Mesh();
 
 	void draw();
-	void drawModel();
 
 private:
 
