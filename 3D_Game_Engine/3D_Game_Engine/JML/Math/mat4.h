@@ -95,6 +95,12 @@ namespace jml
 		JBool operator == (mat4 &param);
 		JBool operator != (mat4 &param);
 
+		friend mat4 operator * (JFloat param, mat4 vec);
+		friend mat4 operator / (JFloat param, mat4 vec);
+		friend mat4 operator *= (JFloat param, mat4 vec);
+		friend mat4 operator /= (JFloat param, mat4 vec);
+		friend vec4 operator * (vec4 &param1, mat4 &param2);
+
 		/// <summary>
 		/// Inverts the matrix.
 		/// </summary>
@@ -180,31 +186,4 @@ namespace jml
 		vec4 column3;
 	};
 
-	namespace
-	{
-		mat4 operator * (JFloat param, mat4 vec)
-		{
-			return param * vec;
-		}
-		mat4 operator / (JFloat param, mat4 vec)
-		{
-			return param / vec;
-		}
-		mat4 operator *= (JFloat param, mat4 vec)
-		{
-			return param *= vec;
-		}
-		mat4 operator /= (JFloat param, mat4 vec)
-		{
-			return param /= vec;
-		}
-		vec4 operator * (vec4 &param1, mat4 &param2)
-		{
-			return vec4(
-				param1.x * param2.column0.x + param1.x * param2.column0.y + param1.x * param2.column0.z + param1.x * param2.column0.w,
-				param1.y * param2.column1.x + param1.y * param2.column1.y + param1.y * param2.column1.z + param1.y * param2.column1.w,
-				param1.z * param2.column2.x + param1.z * param2.column2.y + param1.z * param2.column2.z + param1.z * param2.column2.w,
-				param1.w * param2.column3.x + param1.w * param2.column3.y + param1.w * param2.column3.z + param1.w * param2.column3.w);
-		}
-	}
 }

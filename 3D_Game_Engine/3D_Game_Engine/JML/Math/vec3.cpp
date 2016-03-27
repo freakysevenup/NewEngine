@@ -18,7 +18,7 @@ namespace jml
 
 	vec3 vec3::operator () (JFloat xVal, JFloat yVal, JFloat zVal)
 	{
-		x = xVal; y = yVal; z = zVal;
+		return vec3(x = xVal, y = yVal, z = zVal);
 	}
 
 	vec3 vec3::operator + (vec3 &param)
@@ -104,6 +104,39 @@ namespace jml
 	JBool vec3::operator > (vec3 &param)
 	{
 		return (j_Abs(x) > j_Abs(param.x) && j_Abs(y) > j_Abs(param.y) && j_Abs(z) > j_Abs(param.z)) ? true : false;
+	}
+
+	vec3 operator * (JFloat param, vec3 vec)
+	{
+		return param * vec;
+	}
+	vec3 operator / (JFloat param, vec3 vec)
+	{
+		return param / vec;
+	}
+	vec3 operator - (JFloat param, vec3 vec)
+	{
+		return param - vec;
+	}
+	vec3 operator + (JFloat param, vec3 vec)
+	{
+		return param + vec;
+	}
+	vec3 operator *= (JFloat param, vec3 vec)
+	{
+		return param *= vec;
+	}
+	vec3 operator /= (JFloat param, vec3 vec)
+	{
+		return param /= vec;
+	}
+	vec3 operator -= (JFloat param, vec3 vec)
+	{
+		return param -= vec;
+	}
+	vec3 operator += (JFloat param, vec3 vec)
+	{
+		return param += vec;
 	}
 
 	vec3 vec3::GetUnitVector()

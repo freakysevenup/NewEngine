@@ -5,6 +5,18 @@
 #include "Rendering/Shape.h"
 #include "Rendering/AssImpModelLoader.h"
 
+struct MaterialInfo
+{
+	float Eta; // Ratio of indices of refraction
+	float ReflectionFactor; // Percentage of reflected light
+};
+
+struct LightInfo
+{
+	glm::vec3 position;
+	glm::vec3 intensity;
+};
+
 enum AppState
 {
 	RUNNING,
@@ -34,7 +46,9 @@ private:
 	void setViewPort(ViewPort & view) { m_view = view; }
 	void setTexture(Texture & tex) { m_shapeTexture = tex; }
 	void setShaderProgram(ShaderNova & shader) { m_shader = shader; }
-	void setSkyBoxShaderProgram(ShaderNova & shader) { m_skyBoxShader = shader; }
+	void setRefractionShaderProgram(ShaderNova & shader) { m_refractionShader = shader; }
+	void setReflectionShaderProgram(ShaderNova & shader) { m_reflectionShader = shader; }
+	void setToonCelShaderProgram(ShaderNova & shader) { m_celShader = shader; }
 
 	inline glm::vec2 getGLWindowCoords(float x, float y)
 	{
@@ -53,14 +67,18 @@ private:
 	}
 
 	// VARIABLES:
-	int m_width = 500, m_height = 500;
+	int m_width = 1024, m_height = 1024;
 
 	Camera3D m_cam;
 	ViewPort m_view;
-	ShaderNova m_shader, m_skyBoxShader;
-	Shape m_shape, m_shape2, m_lightBulb, m_skyBox;
-	Texture m_shapeTexture, m_bulbTex, m_skyBoxTex;
+	ShaderNova m_shader, m_reflectionShader, m_refractionShader, m_celShader;
+	Shape m_shape, m_shape2, m_shape3, m_shape4, m_shape5, m_lightBulb, m_skyBox;
+	Texture m_shapeTexture, m_bulbTex, m_skyBoxTex, m_diceBlockTex, m_humanShipTex;
 	InputManager m_input;
+	ModelMesh m_model, m_model2, m_model3;
+
+	MaterialInfo m_material;
+	LightInfo m_light;
 
 	glm::vec2 m_offset;
 

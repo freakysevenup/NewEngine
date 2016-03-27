@@ -101,6 +101,39 @@ namespace jml
 		return vec4(x /= param, y /= param, z /= param, w /= param);
 	}
 
+	vec4 operator * (JFloat param, vec4 vec)
+	{
+		return param * vec;
+	}
+	vec4 operator / (JFloat param, vec4 vec)
+	{
+		return param / vec;
+	}
+	vec4 operator - (JFloat param, vec4 vec)
+	{
+		return param - vec;
+	}
+	vec4 operator + (JFloat param, vec4 vec)
+	{
+		return param + vec;
+	}
+	vec4 operator *= (JFloat param, vec4 vec)
+	{
+		return param *= vec;
+	}
+	vec4 operator /= (JFloat param, vec4 vec)
+	{
+		return param /= vec;
+	}
+	vec4 operator -= (JFloat param, vec4 vec)
+	{
+		return param -= vec;
+	}
+	vec4 operator += (JFloat param, vec4 vec)
+	{
+		return param += vec;
+	}
+
 	JFloat vec4::MagnitudeSquared()
 	{
 		return (x * x) + (y * y) + (z * z) + (w * w);

@@ -40,6 +40,7 @@ private:
 	GLuint m_fragShader;
 	GLuint m_geoShader;
 	int m_numAttributes;
+	GLint m_uniforms;
 
 };
 

@@ -120,6 +120,31 @@ namespace jml
 		return (column0 != param.column0, column1 != param.column1, column2 != param.column2, column3 != param.column3);
 	}
 
+	mat4 operator * (JFloat param, mat4 vec)
+	{
+		return param * vec;
+	}
+	mat4 operator / (JFloat param, mat4 vec)
+	{
+		return param / vec;
+	}
+	mat4 operator *= (JFloat param, mat4 vec)
+	{
+		return param *= vec;
+	}
+	mat4 operator /= (JFloat param, mat4 vec)
+	{
+		return param /= vec;
+	}
+	vec4 operator * (vec4 &param1, mat4 &param2)
+	{
+		return vec4(
+			param1.x * param2.column0.x + param1.x * param2.column0.y + param1.x * param2.column0.z + param1.x * param2.column0.w,
+			param1.y * param2.column1.x + param1.y * param2.column1.y + param1.y * param2.column1.z + param1.y * param2.column1.w,
+			param1.z * param2.column2.x + param1.z * param2.column2.y + param1.z * param2.column2.z + param1.z * param2.column2.w,
+			param1.w * param2.column3.x + param1.w * param2.column3.y + param1.w * param2.column3.z + param1.w * param2.column3.w);
+	}
+
 	mat4 mat4::InvertMatrix()
 	{
 		return (1.0 / GetDeterminant()) * GetAdjunct();
