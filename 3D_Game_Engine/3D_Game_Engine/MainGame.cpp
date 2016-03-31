@@ -88,6 +88,9 @@ void MainGame::init()
 	m_shape5.createShape(CUBOID, 30.0f, 0.0f);
 	Mesh cube5Mesh(m_shape5.getVertices(), m_shape5.getVertices().size());
 
+	m_shape6.createShape(SPHERE, 30.0f, 0.0f, 5);
+	Mesh sphereMesh(m_shape6.getVertices(), m_shape6.getVertices().size());
+
 	m_lightBulb.createShape(SPHERE, 0.15f, 2.0f, 16);
 	Mesh bulbMesh(m_lightBulb.getVertices(), m_lightBulb.getVertices().size());
 
@@ -116,7 +119,7 @@ void MainGame::init()
 	ShaderNova reflection;
 
 	std::vector<std::string> reflectionShaderFiles;
-	reflectionShaderFiles.push_back("./Assets/Shaders/reflectionVert.glsl");
+	reflectionShaderFiles.push_back("./Assets/Shaders/reflectionVert - Copy.glsl");
 	reflectionShaderFiles.push_back("./Assets/Shaders/reflectionFrag.glsl");
 
 	reflection.compileShadersFromFile(reflectionShaderFiles);
@@ -537,6 +540,9 @@ void MainGame::draw()
 
 	m_reflectionShader.startUse();
 
+	GLint counter = m_reflectionShader.getUniformLocation("counter");
+	glUniform1f(counter, m_shapeSizeCounter);
+
 	GLint REFLECTIONView = m_reflectionShader.getUniformLocation("view");
 	glm::mat4 REFLECTIONViewMat = m_cam.view();
 	glUniformMatrix4fv(REFLECTIONView, 1, GL_FALSE, &REFLECTIONViewMat[0][0]);
@@ -546,7 +552,7 @@ void MainGame::draw()
 	glUniformMatrix4fv(REFLECTIONProjection, 1, GL_FALSE, &REFLECTIONProjectionMat[0][0]);
 
 	GLint REFLECTIONModel = m_reflectionShader.getUniformLocation("model");
-	glm::mat4 REFLECTIONModelMatrix = m_model.getModel();
+	glm::mat4 REFLECTIONModelMatrix = m_shape6.getModel();
 	glUniformMatrix4fv(REFLECTIONModel, 1, GL_FALSE, &REFLECTIONModelMatrix[0][0]);
 
 	GLint REFLECTIONCamPos = m_reflectionShader.getUniformLocation("camPosition");
@@ -567,12 +573,12 @@ void MainGame::draw()
 	m_humanShipTex.bind2D(0);
 	m_skyBoxTex.bindCube(0);
 
-	m_model.setPosition(glm::vec3(-90.0f, 10.0f, 110.0f));
-	m_model.setRotation(glm::vec3(0.0f));
-	m_model.setScale(glm::vec3(1.0f));
+	m_shape6.setPosition(glm::vec3(-90.0f, 10.0f, 110.0f));
+	m_shape6.setRotation(glm::vec3(0.0f));
+	m_shape6.setScale(glm::vec3(1.0f));
 
-	//m_shape.draw();
-	m_model.Render();
+	m_shape6.draw();
+	//m_model.Render();
 
 	m_reflectionShader.stopUse();
 
@@ -609,6 +615,7 @@ void MainGame::draw()
 	/////////////////////////////////////////////////////////////////////
 
 	m_counter += 0.0001f;
+	m_shapeSizeCounter += 0.01f;
 }
 
 void MainGame::gameLoop()

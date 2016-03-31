@@ -67,12 +67,12 @@ private:
 	}
 
 	// VARIABLES:
-	int m_width = 1024, m_height = 1024;
+	int m_width = 500, m_height = 500;
 
 	Camera3D m_cam;
 	ViewPort m_view;
 	ShaderNova m_shader, m_reflectionShader, m_refractionShader, m_celShader;
-	Shape m_shape, m_shape2, m_shape3, m_shape4, m_shape5, m_lightBulb, m_skyBox;
+	Shape m_shape, m_shape2, m_shape3, m_shape4, m_shape5, m_shape6, m_lightBulb, m_skyBox;
 	Texture m_shapeTexture, m_bulbTex, m_skyBoxTex, m_diceBlockTex, m_humanShipTex;
 	InputManager m_input;
 	ModelMesh m_model, m_model2, m_model3;
@@ -83,6 +83,7 @@ private:
 	glm::vec2 m_offset;
 
 	float m_counter = 0;
+	float m_shapeSizeCounter = 0.0f;
 	AppState m_appState = AppState::RUNNING;
 };
 
