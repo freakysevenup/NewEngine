@@ -44,11 +44,10 @@ void main()
 
 		ReflectDir = reflect( -worldView, worldNorm );
 		RefractDir = refract( -worldView, worldNorm, 0.44 );
-		gl_Position = MVP * vec4((vec3(
-		(positionOfVertex.x) + abs(cos(positionOfVertex.x + counter)), 
-		(positionOfVertex.y) + abs(cos(positionOfVertex.y + counter)), 
-		(positionOfVertex.z) + abs(cos(positionOfVertex.z + counter)) * (ReflectDir/RefractDir))
-		), 1.0 );
+		
+		gl_Position = MVP * 
+		vec4(
+		vec3(positionOfVertex + normal * sin(counter * 7 + abs(positionOfVertex.x + positionOfVertex.y + positionOfVertex.z) / 5.0) * 3.0), 0.7);
 	}
 
 }

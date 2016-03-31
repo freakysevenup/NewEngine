@@ -88,7 +88,7 @@ void MainGame::init()
 	m_shape5.createShape(CUBOID, 30.0f, 0.0f);
 	Mesh cube5Mesh(m_shape5.getVertices(), m_shape5.getVertices().size());
 
-	m_shape6.createShape(SPHERE, 30.0f, 0.0f, 5);
+	m_shape6.createShape(SPHERE, 30.0f, 0.0f, 128);
 	Mesh sphereMesh(m_shape6.getVertices(), m_shape6.getVertices().size());
 
 	m_lightBulb.createShape(SPHERE, 0.15f, 2.0f, 16);
@@ -552,7 +552,7 @@ void MainGame::draw()
 	glUniformMatrix4fv(REFLECTIONProjection, 1, GL_FALSE, &REFLECTIONProjectionMat[0][0]);
 
 	GLint REFLECTIONModel = m_reflectionShader.getUniformLocation("model");
-	glm::mat4 REFLECTIONModelMatrix = m_shape6.getModel();
+	glm::mat4 REFLECTIONModelMatrix = m_model2.getModel();
 	glUniformMatrix4fv(REFLECTIONModel, 1, GL_FALSE, &REFLECTIONModelMatrix[0][0]);
 
 	GLint REFLECTIONCamPos = m_reflectionShader.getUniformLocation("camPosition");
@@ -573,12 +573,12 @@ void MainGame::draw()
 	m_humanShipTex.bind2D(0);
 	m_skyBoxTex.bindCube(0);
 
-	m_shape6.setPosition(glm::vec3(-90.0f, 10.0f, 110.0f));
-	m_shape6.setRotation(glm::vec3(0.0f));
-	m_shape6.setScale(glm::vec3(1.0f));
+	m_model2.setPosition(glm::vec3(-90.0f, 10.0f, 110.0f));
+	m_model2.setRotation(glm::vec3(0.0f));
+	m_model2.setScale(glm::vec3(1.0f));
 
-	m_shape6.draw();
-	//m_model.Render();
+	//m_shape6.draw();
+	m_model2.Render();
 
 	m_reflectionShader.stopUse();
 
